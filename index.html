@@ -1,0 +1,2364 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Sales & Source HQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff;
+            --ink: #1c2b36;
+            --mute: #5f6f7b;
+            --line: #cfd9e0;
+            --brand: #0072BC;
+            --brand-d: #005a95;
+            --brand-l: #e6f2fa;
+            --bad: #b3261e;
+            --ok: #1b7a43;
+            --side: #f3f7fa;
+            box-sizing: border-box;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            color-scheme: light
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            height: 100%;
+            scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px))
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--ink);
+            font: 14px/1.5 "IBM Plex Sans", "Segoe UI", system-ui, Arial, sans-serif
+        }
+
+        [hidden] {
+            display: none !important
+        }
+
+        /* hide all scrollbars (scrolling still works) */
+        html,
+        body,
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        *::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0
+        }
+
+        .top {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: var(--brand);
+            color: #fff;
+            padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0 0 auto;
+            height: env(safe-area-inset-top, 0px);
+            background: var(--brand);
+            z-index: 31
+        }
+
+        .in {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 16px clamp(16px, 3vw, 32px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff
+        }
+
+        .brand p {
+            margin: 2px 0 0;
+            opacity: .92;
+            font-size: 13.5px
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .16);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            flex: none
+        }
+
+        .logo svg {
+            width: 23px;
+            height: 23px
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        nav a.nav-transfer {
+            background: #fff;
+            color: var(--brand, #0072BC);
+            border-color: #fff
+        }
+
+        nav a.nav-transfer:hover,
+        nav a.nav-transfer:focus-visible {
+            background: var(--brand-l, #e6f2fa)
+        }
+
+        nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .16);
+            border: 1px solid rgba(255, 255, 255, .4)
+        }
+
+        nav a svg {
+            width: 18px;
+            height: 18px
+        }
+
+        main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 26px clamp(16px, 3vw, 32px) 60px
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600
+        }
+
+        .sub {
+            color: var(--mute);
+            margin: 2px 0 20px
+        }
+
+        h2 {
+            margin: 0 0 4px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--brand)
+        }
+
+        .hint {
+            color: var(--mute);
+            font-size: 12.5px;
+            margin: 0 0 14px
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-top: 4px solid var(--brand);
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin-bottom: 16px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px 14px
+        }
+
+        .c2 {
+            grid-column: span 2
+        }
+
+        .c4 {
+            grid-column: 1/-1
+        }
+
+        label.l {
+            display: block;
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 3px
+        }
+
+        label.l i {
+            color: var(--bad);
+            font-style: normal
+        }
+
+        input,
+        select,
+        .ms-btn {
+            width: 100%;
+            height: 32px;
+            padding: 4px 9px;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: #fff;
+            color: var(--ink);
+            font: inherit;
+            font-size: 13px
+        }
+
+        .ms-panel input.ms-s {
+            height: 30px
+        }
+
+        .ms-opt input {
+            height: auto
+        }
+
+        .ms-opt {
+            padding: 5px 8px;
+            font-size: 13px
+        }
+
+        input[readonly] {
+            background: var(--side);
+            color: #3a4b57
+        }
+
+        input:focus,
+        select:focus,
+        button:focus-visible,
+        .ms-btn:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 1px
+        }
+
+        small {
+            display: block;
+            color: var(--mute);
+            font-size: 12px;
+            margin-top: 2px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--brand);
+            background: #fff;
+            color: var(--brand);
+            padding: 9px 16px;
+            border-radius: 6px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: var(--brand-l)
+        }
+
+        .btn.p {
+            background: var(--brand);
+            color: #fff
+        }
+
+        .btn.p:hover {
+            background: var(--brand-d)
+        }
+
+        .btn.sm {
+            padding: 3px 11px
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin: 4px 0 32px
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            min-width: 0
+        }
+
+        fieldset:disabled {
+            opacity: .5
+        }
+
+        .note {
+            color: var(--mute);
+            font-size: 12.5px;
+            margin: 14px 0 0
+        }
+
+        .banner {
+            border-left: 4px solid var(--brand);
+            background: var(--brand-l);
+            padding: 9px 12px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 14px;
+            font-size: 13px
+        }
+
+        .combo,
+        .ms {
+            position: relative
+        }
+
+        .elist,
+        .ms-panel {
+            position: absolute;
+            z-index: 20;
+            left: 0;
+            right: 0;
+            top: calc(100% + 4px);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(15, 42, 61, .16);
+            padding: 6px;
+            min-width: 230px
+        }
+
+        .elist {
+            max-height: 290px;
+            overflow: auto;
+            min-width: 300px
+        }
+
+        .eo {
+            padding: 8px 10px;
+            border-radius: 6px;
+            cursor: pointer
+        }
+
+        .eo:hover,
+        .eo.hl {
+            background: var(--brand-l)
+        }
+
+        .eo small {
+            margin: 0
+        }
+
+        .ms-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+            cursor: pointer
+        }
+
+        .ms-val {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .ms-val.ph {
+            color: var(--mute)
+        }
+
+        .ms-val.cv {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 0
+        }
+
+        .mc {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            max-width: 100%;
+            background: var(--brand-l);
+            color: var(--brand-d);
+            border: 1px solid #b9d9ee;
+            border-radius: 999px;
+            padding: 0 3px 0 9px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .mt {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--mute);
+            margin-right: 8px
+        }
+
+        .mc.cnt {
+            flex: none;
+            margin-left: 0;
+            height: 20px;
+            font-size: 11.5px;
+            background: var(--brand);
+            border-color: var(--brand);
+            color: #fff
+        }
+
+        .mc.cnt .x:hover {
+            background: rgba(255, 255, 255, .28)
+        }
+
+        .x {
+            padding: 0 6px;
+            font-size: 15px;
+            line-height: 1.2;
+            border-radius: 50%;
+            cursor: pointer
+        }
+
+        .x:hover {
+            background: rgba(0, 114, 188, .18)
+        }
+
+        h2+.grid {
+            margin-top: 14px
+        }
+
+        .ms-btn svg {
+            width: 14px;
+            height: 14px;
+            flex: none;
+            transition: transform .15s
+        }
+
+        .ms.open .ms-btn svg {
+            transform: rotate(180deg)
+        }
+
+        .ms-btn:disabled {
+            background: var(--side);
+            cursor: not-allowed;
+            color: var(--mute)
+        }
+
+        .ms-list {
+            max-height: 230px;
+            overflow: auto;
+            margin-top: 6px
+        }
+
+        .ms-opt {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 400;
+            margin: 0
+        }
+
+        .ms-opt:hover {
+            background: var(--brand-l)
+        }
+
+        .ms-opt input {
+            width: auto;
+            accent-color: var(--brand)
+        }
+
+        .ms-all {
+            border-bottom: 1px solid var(--line);
+            border-radius: 6px 6px 0 0;
+            font-weight: 600;
+            margin-top: 6px
+        }
+
+        .ms-empty {
+            padding: 10px;
+            color: var(--mute)
+        }
+
+        .tw {
+            overflow-x: auto
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 720px
+        }
+
+        th {
+            text-align: left;
+            padding: 9px 10px;
+            color: var(--mute);
+            font-weight: 600;
+            border-bottom: 1px solid var(--line);
+            white-space: nowrap;
+            background: var(--side)
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: top
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--brand-l);
+            color: var(--brand-d);
+            border-radius: 10px;
+            padding: 1px 9px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 0 4px 4px 0
+        }
+
+        .empty {
+            color: var(--mute);
+            text-align: center;
+            padding: 24px
+        }
+
+        .err input:not([type=checkbox]):not([type=radio]),
+        .err select,
+        .err .ms-btn {
+            border-color: var(--bad);
+            background: #fff6f5;
+            box-shadow: 0 0 0 2px rgba(179, 38, 30, .12)
+        }
+
+        .ferr {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--bad);
+            font-size: 11.5px;
+            font-weight: 600;
+            margin-top: 3px
+        }
+
+        .ferr::before {
+            content: "!";
+            display: inline-grid;
+            place-items: center;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: var(--bad);
+            color: #fff;
+            font-size: 10px;
+            line-height: 1;
+            flex: none
+        }
+
+        .cntb {
+            display: inline-block;
+            background: var(--brand-l);
+            color: var(--brand-d);
+            border: 1px solid #b9d9ee;
+            border-radius: 999px;
+            padding: 1px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            vertical-align: middle
+        }
+
+        .eye {
+            display: inline-grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--brand);
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0
+        }
+
+        .eye:hover {
+            background: var(--brand-l);
+            border-color: var(--brand)
+        }
+
+        .eye svg {
+            width: 16px;
+            height: 16px
+        }
+
+        .vm {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            background: rgba(15, 42, 61, .45);
+            display: grid;
+            place-items: center;
+            padding: 16px
+        }
+
+        .vc {
+            background: #fff;
+            border-radius: 10px;
+            border-top: 4px solid var(--brand);
+            width: min(720px, 100%);
+            max-height: calc(100vh - 32px);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(15, 42, 61, .3)
+        }
+
+        .vh {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 16px 10px
+        }
+
+        .vh>div {
+            flex: 1
+        }
+
+        .vh small {
+            margin: 0
+        }
+
+        .vh h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--ink)
+        }
+
+        .pill.okp {
+            background: #e3f4ea;
+            color: var(--ok)
+        }
+
+        .pill.offp {
+            background: #eef2f5;
+            color: var(--mute)
+        }
+
+        .vx {
+            border: 0;
+            background: none;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            color: var(--mute);
+            padding: 0 6px;
+            border-radius: 6px
+        }
+
+        .vx:hover {
+            background: var(--brand-l);
+            color: var(--brand-d)
+        }
+
+        .vf {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 0 16px 12px
+        }
+
+        .vf div {
+            background: var(--side);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 7px 10px;
+            min-width: 0
+        }
+
+        .vf .vw {
+            grid-column: 1/-1
+        }
+
+        .vf span {
+            display: block;
+            font-size: 11.5px;
+            color: var(--mute);
+            font-weight: 600
+        }
+
+        .vf b {
+            font-weight: 600;
+            font-size: 13px;
+            word-break: break-word
+        }
+
+        .vs {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            flex: 1
+        }
+
+        .vsh {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px
+        }
+
+        .vsh input {
+            width: 200px
+        }
+
+        .vt {
+            overflow: auto;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 10px 10px 6px;
+            min-height: 80px;
+            max-height: 300px
+        }
+
+        .vb {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 12px 16px
+        }
+
+        @media(max-width:560px) {
+            .vf {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .vsh {
+                flex-direction: column;
+                align-items: stretch
+            }
+
+            .vsh input {
+                width: 100%
+            }
+        }
+
+        .blk {
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--brand);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 14px;
+            background: #fcfdfe
+        }
+
+        .bh {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px
+        }
+
+        .bh b {
+            font-size: 14px
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            background: var(--brand-l);
+            color: var(--brand-d);
+            border-radius: 14px;
+            padding: 2px 4px 2px 10px;
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .chip button {
+            border: 0;
+            background: none;
+            color: inherit;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 1;
+            padding: 0 6px;
+            border-radius: 50%
+        }
+
+        .chip button:hover {
+            background: rgba(0, 114, 188, .18)
+        }
+
+        .lh {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .pill {
+            background: var(--brand-l);
+            color: var(--brand-d);
+            border-radius: 14px;
+            padding: 3px 12px;
+            font-size: 12.5px;
+            font-weight: 600
+        }
+
+        .sw {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 1px solid var(--line);
+            background: #f3f7fa;
+            color: var(--mute);
+            border-radius: 16px;
+            padding: 4px 12px 4px 9px;
+            font: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .sw i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #9aa8b3
+        }
+
+        .sw.on {
+            background: #e3f4ea;
+            border-color: #b9e0c8;
+            color: var(--ok)
+        }
+
+        .sw.on i {
+            background: var(--ok)
+        }
+
+        tr.off td {
+            color: var(--mute)
+        }
+
+        tr.off .tag {
+            background: #eef2f5;
+            color: var(--mute)
+        }
+
+        .blk.editing {
+            border-left-color: #d98200;
+            background: #fffaf2
+        }
+
+        .btn.add {
+            display: flex;
+            width: fit-content;
+            margin: 4px 0 0 auto;
+            padding: 5px 12px;
+            font-size: 12.5px;
+            justify-content: center;
+            border: 1.5px dashed var(--brand);
+            background: var(--brand-l);
+            color: var(--brand-d)
+        }
+
+        .btn.add:hover {
+            background: #d6eaf8
+        }
+
+        .btn.add svg {
+            width: 14px;
+            height: 14px
+        }
+
+        .empty-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 40px 20px;
+            color: var(--mute);
+            text-align: center
+        }
+
+        .empty-card b {
+            color: var(--ink);
+            font-size: 15px
+        }
+
+        .empty-card svg {
+            width: 34px;
+            height: 34px;
+            color: var(--brand)
+        }
+
+        #toast {
+            position: fixed;
+            right: 20px;
+            top: calc(84px + env(safe-area-inset-top, 0px));
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            max-width: min(380px, calc(100vw - 40px));
+            background: #fff4d6;
+            color: #6b4500;
+            border: 1px solid #f0c860;
+            border-left: 5px solid #e69a00;
+            padding: 10px 14px;
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(15, 42, 61, .18);
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: .2s;
+            pointer-events: none;
+            z-index: 70
+        }
+
+        #toast.on {
+            opacity: 1;
+            transform: none
+        }
+
+        #toast svg {
+            width: 18px;
+            height: 18px;
+            flex: none;
+            margin-top: 1px
+        }
+
+        #toast.ok {
+            background: #e3f4ea;
+            color: #145c33;
+            border-color: #b9e0c8;
+            border-left-color: var(--ok)
+        }
+
+        @media(max-width:900px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .in {
+                gap: 12px
+            }
+        }
+
+        @media(max-width:560px) {
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .c2 {
+                grid-column: auto
+            }
+
+            nav a {
+                padding: 8px 12px
+            }
+
+            .brand h1 {
+                font-size: 18px
+            }
+        }
+
+        .dv {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            min-height: 32px;
+            padding: 3px 9px;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: var(--side)
+        }
+
+        .tg {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 1px solid #b9d9ee;
+            color: var(--brand-d);
+            border-radius: 999px;
+            padding: 1px 10px;
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .tg em {
+            font-style: normal;
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 0 7px;
+            border-radius: 999px;
+            background: var(--brand);
+            color: #fff
+        }
+
+        .tg.opt em {
+            background: #9aa8b3
+        }
+
+        .cntb.s {
+            background: #fff
+        }
+
+        .dv {
+            position: relative
+        }
+
+        label.l.lrow {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 18px
+        }
+
+        .lrow .more {
+            margin: 0;
+            padding: 0 8px 0 6px;
+            font-size: 11.5px;
+            height: 20px
+        }
+
+        .more {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: auto;
+            border: 1px solid var(--brand);
+            background: #fff;
+            color: var(--brand);
+            border-radius: 999px;
+            padding: 1px 9px 1px 7px;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .more:hover,
+        .more[aria-expanded=true] {
+            background: var(--brand);
+            color: #fff
+        }
+
+        .more svg {
+            width: 14px;
+            height: 14px
+        }
+
+        .dpop {
+            position: absolute;
+            z-index: 25;
+            right: 0;
+            top: 22px;
+            width: min(300px, 86vw);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(15, 42, 61, .18);
+            padding: 10px
+        }
+
+        .dpop b {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--mute);
+            margin: 0 2px 8px
+        }
+
+        .dpop .dl {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            max-height: 220px;
+            overflow: auto
+        }
+
+        .sect {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .sect .n {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--brand);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex: none
+        }
+
+        .sdiv {
+            border-top: 1px dashed var(--line);
+            margin: 24px -16px 20px
+        }
+
+        .tg {
+            white-space: nowrap;
+            padding: 1px 4px 1px 9px !important;
+            gap: 5px !important
+        }
+
+        .tg em {
+            padding: 1px 7px !important
+        }
+
+        .dv {
+            gap: 6px;
+            padding: 4px 8px
+        }
+
+        .dpop .dl {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .dpop .tg {
+            justify-content: space-between;
+            padding: 3px 4px 3px 10px !important
+        }
+
+        .cntb,
+        .tag {
+            white-space: nowrap
+        }
+
+        .sec {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--mute);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin: 20px 0 12px
+        }
+
+        .sec::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--line)
+        }
+
+        #salesRows .blk {
+            margin-bottom: 12px
+        }
+
+        .tw td {
+            vertical-align: middle
+        }
+
+        .tw td .tag {
+            margin: 0 4px 0 0
+        }
+
+        .tw table {
+            min-width: 980px
+        }
+
+        .tw th:last-child,
+        .tw td:last-child {
+            text-align: right
+        }
+
+        .tw tbody tr:hover td {
+            background: #f8fbfd
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important
+            }
+        }
+
+        /* ===== existing-mapping view / edit / history ===== */
+        .mapbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 0 0 16px;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--brand);
+            border-radius: 8px;
+            background: var(--brand-l)
+        }
+
+        .mapbar small {
+            margin-top: 3px
+        }
+
+        .mapbar .pill {
+            background: #fff;
+            margin-left: 6px
+        }
+
+        .mapbtns {
+            display: flex;
+            gap: 8px
+        }
+
+        #form[data-mode=edit] .mapbar {
+            border-left-color: #d98200;
+            background: #fffaf2
+        }
+
+        #form[data-mode=edit] #from,
+        #form[data-mode=edit] #reason {
+            border-color: #d98200;
+            background: #fffaf2
+        }
+
+        .frozen input,
+        .frozen select,
+        .frozen .ms-btn {
+            background: var(--side);
+            color: #3a4b57;
+            border-color: #e0e8ee;
+            cursor: default
+        }
+
+        .frozen .ms-btn svg,
+        .frozen .x,
+        .frozen .rm,
+        .frozen .btn.add,
+        .frozen label.l i {
+            display: none
+        }
+
+        #endHint {
+            font-weight: 600
+        }
+
+        .arr {
+            color: var(--mute);
+            margin: 0 3px
+        }
+
+        .tl {
+            padding: 14px 16px 4px !important;
+            max-height: none !important
+        }
+
+        .hv {
+            position: relative;
+            margin-left: 6px;
+            padding: 0 0 18px 22px;
+            border-left: 2px solid var(--line)
+        }
+
+        .hv::before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid var(--mute)
+        }
+
+        .hv.cur {
+            border-left-color: var(--brand)
+        }
+
+        .hv.cur::before {
+            background: var(--brand);
+            border-color: var(--brand)
+        }
+
+        .hv:last-child {
+            border-left-color: transparent;
+            padding-bottom: 4px
+        }
+
+        .hr {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            font-weight: 600
+        }
+
+        .hm {
+            color: var(--mute);
+            font-size: 12px;
+            margin-top: 2px
+        }
+
+        .hc {
+            margin: 6px 0 0;
+            padding-left: 18px;
+            font-size: 12.5px
+        }
+
+        /* ===== neat Source HQ list ===== */
+        .tw table {
+            min-width: 900px;
+            table-layout: auto
+        }
+
+        .tw th,
+        .tw td {
+            padding: 12px 10px;
+            white-space: nowrap;
+            vertical-align: middle;
+            text-align: left
+        }
+
+        .tw th:last-child,
+        .tw td:last-child {
+            text-align: right
+        }
+
+        .tw td.wrap {
+            white-space: normal;
+            min-width: 130px;
+            line-height: 1.35
+        }
+
+        .rs {
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dotted var(--mute)
+        }
+
+        .rs.full {
+            cursor: default;
+            border-bottom: 0
+        }
+
+        .act {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 6px
+        }
+
+        .act .btn.sm {
+            height: 28px;
+            padding: 0 12px;
+            line-height: 1
+        }
+
+        #tip {
+            position: fixed;
+            z-index: 80;
+            max-width: min(340px, calc(100vw - 24px));
+            background: #1c2b36;
+            color: #fff;
+            font-size: 12.5px;
+            line-height: 1.45;
+            padding: 8px 11px;
+            border-radius: 8px;
+            box-shadow: 0 10px 28px rgba(15, 42, 61, .28);
+            pointer-events: none;
+            white-space: normal;
+            word-break: break-word
+        }
+
+        /* ===== Source HQ block layout: reason = col-md-9 (3 of 4 columns), product scope on its own row ===== */
+        .c3 {
+            grid-column: span 3
+        }
+
+        @media(max-width:900px) {
+            .c3 {
+                grid-column: 1/-1
+            }
+        }
+
+        @media(max-width:560px) {
+            .c3 {
+                grid-column: auto
+            }
+        }
+
+        label.l .opt {
+            font-weight: 400;
+            color: var(--mute)
+        }
+
+        /* ===== product scope picker: chips on top, search box below ===== */
+        .tb {
+            position: relative
+        }
+
+        .tb-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px
+        }
+
+        .tb-chips:empty {
+            display: none
+        }
+
+        .tb-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 100%;
+            background: var(--brand-l);
+            border: 1px solid #b9d9ee;
+            color: var(--brand-d);
+            border-radius: 999px;
+            padding: 3px 6px 3px 4px;
+            font-weight: 600;
+            font-size: 13px
+        }
+
+        .tb-chip i {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--brand);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-style: normal;
+            font-size: 11px;
+            flex: none
+        }
+
+        .tb-chip span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .tb-chip button {
+            border: 0;
+            background: rgba(0, 114, 188, .14);
+            color: inherit;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            line-height: 1;
+            font-size: 13px;
+            padding: 0;
+            flex: none
+        }
+
+        .tb-chip button:hover {
+            background: rgba(0, 114, 188, .3)
+        }
+
+        .tb-in {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            padding: 0 10px;
+            height: 38px
+        }
+
+        .tb-in:focus-within {
+            outline: 2px solid var(--brand);
+            outline-offset: 1px
+        }
+
+        .tb-in svg {
+            width: 16px;
+            height: 16px;
+            color: var(--mute);
+            flex: none
+        }
+
+        .tb-in input {
+            border: 0;
+            height: 100%;
+            padding: 0;
+            background: transparent
+        }
+
+        .tb-in input:focus {
+            outline: 0
+        }
+
+        .tb-list {
+            position: absolute;
+            z-index: 20;
+            left: 0;
+            right: 0;
+            top: calc(100% + 4px);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(15, 42, 61, .16);
+            padding: 6px;
+            max-height: 250px;
+            overflow: auto
+        }
+
+        .tb-opt {
+            padding: 7px 10px;
+            border-radius: 6px;
+            cursor: pointer
+        }
+
+        .tb-opt:hover,
+        .tb-opt.hl {
+            background: var(--brand-l)
+        }
+
+        /* ===== one Source HQ mapping = several division rows + common fields ===== */
+        .drow {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 12px 12px 4px;
+            margin-bottom: 10px;
+            background: #fff
+        }
+
+        .drh {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px
+        }
+
+        .drh b {
+            font-size: 13px;
+            color: var(--brand-d)
+        }
+
+        .blk .sec {
+            margin: 18px 0 10px
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top">
+        <div class="in">
+            <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="9" y="3" width="6" height="5" rx="1" />
+                        <rect x="3" y="16" width="6" height="5" rx="1" />
+                        <rect x="15" y="16" width="6" height="5" rx="1" />
+                        <path d="M12 8v4M6 16v-4h12v4" />
+                    </svg></span>
+                <div>
+                    <h1>Employee Organogram Mapping</h1>
+                    <p>Sales mapping and Source HQ / Stockist HQ mapping</p>
+                </div>
+            </div>
+            <nav><a href="#" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z" />
+                        <circle cx="12" cy="10" r="2.5" />
+                    </svg>Sales &amp; Source HQ mapping</a><a class="nav-transfer"
+                    href="https://rajenderbhukya.github.io/employeetransfer/" target="_blank" rel="noopener noreferrer"
+                    title="Open Employee Transfer in a new tab"><svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 7h13M16 3l4 4-4 4" />
+                        <path d="M17 17H4M8 13l-4 4 4 4" />
+                    </svg>Employee Transfer / Swap</a></nav>
+        </div>
+    </header>
+    <main>
+        <div class="card">
+            <h2>Employee details</h2>
+            <p class="hint">Type an employee code or name in the first field and pick from the list. The onboarding
+                details
+                fill in automatically.</p>
+            <div class="grid">
+                <div class="combo"><label class="l" for="code">Employee code <i>*</i></label><input id="code"
+                        autocomplete="off" placeholder="Search code or name">
+                    <div class="elist" id="elist" hidden></div>
+                </div>
+                <div><label class="l">Employee name</label><input id="ename" readonly placeholder="—"></div>
+                <div><label class="l">Designation</label><input id="desg" readonly placeholder="—"></div>
+                <div><label class="l">Date of joining (DOJ)</label><input id="doj" type="date" readonly></div>
+                <div><label class="l">Onboarding HQ</label><input id="ohq" readonly placeholder="—"></div>
+                <div><label class="l">Onboarding region</label><input id="oreg" readonly placeholder="—"></div>
+                <div><label class="l">Current reporting manager</label><input id="orm" readonly placeholder="—"></div>
+                <div id="odivw" style="position:relative"><label class="l lrow"><span>Login-enabled division</span><span
+                            id="dmore"></span></label>
+                    <div class="dv" id="odiv"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card empty-card" id="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.8">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-4-4" />
+            </svg><b>No employee selected</b><span>Search an employee code above to load their Sales HQ and Source HQ
+                mapping.</span></div>
+        <form id="form" novalidate hidden>
+            <fieldset id="fs">
+                <div class="card">
+                    <div class="mapbar" id="mapbar" hidden>
+                        <div><b id="mapT"></b><span class="pill" id="mapRange"></span><small id="mapNote"></small></div>
+                        <div class="mapbtns"><button type="button" class="btn sm" id="hisBtn" hidden><svg
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8" />
+                                    <path d="M3 3v5h5M12 7v5l3 2" />
+                                </svg>History</button><button type="button" class="btn sm p" id="editBtn"><svg
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 20h9" />
+                                    <path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z" />
+                                </svg>Edit</button><button type="button" class="btn sm" id="cancelBtn" hidden>Cancel
+                                edit</button></div>
+                    </div>
+                    <h2 class="sect"><span class="n">1</span>Sales Organogram Mapping – required fields</h2>
+                    <p class="hint" style="margin-top:4px">HEALION is added by default. Use “Add another division” to
+                        map
+                        more divisions, each with its own State, Region and Sales HQ.</p>
+                    <div id="salesBody">
+                        <div id="salesRows"></div>
+                        <button class="btn add" type="button" id="addDiv"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>Add another division</button>
+                        <div class="sec">Common for all divisions</div>
+                        <div class="grid">
+                            <div><label class="l">Reporting manager <i>*</i></label>
+                                <div id="msMgr"></div>
+                            </div>
+                            <div><label class="l" for="pool">Pool HQ <i>*</i></label><select id="pool"></select></div>
+                            <div><label class="l" for="from" id="lblFrom">Effective from <i>*</i></label><input
+                                    id="from" type="date"><small id="endHint" hidden></small></div>
+                            <div class="c4"><label class="l" for="reason" id="lblReason">Change reason / remarks
+                                    <i>*</i></label><input id="reason"
+                                    placeholder="Enter reason for initial mapping or change">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="srcBody">
+                        <div class="sdiv"></div>
+                        <h2 class="sect" style="margin-bottom:12px"><span class="n">2</span>Source HQ / Stockist HQ
+                            Mapping –
+                            separate from Sales HQ</h2>
+                        <p class="hint" id="srcHint" style="margin:-4px 0 12px"></p>
+                        <div id="srcBlocks"></div>
+                        <button class="btn add" type="button" id="addSrc"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>Add another Source HQ mapping</button>
+                    </div>
+                </div>
+                <div class="actions" id="actions"><button class="btn" type="reset">Reset</button><button class="btn p"
+                        type="submit" id="saveBtn">Save mapping</button></div>
+            </fieldset>
+        </form>
+        <div class="card" id="listCard" hidden>
+            <div class="lh">
+                <div>
+                    <h2>Source HQ list</h2>
+                    <p class="hint">Saved Source HQ / Stockist HQ mappings for this employee. Use the eye icon to view
+                        details, History to see earlier versions, Edit to change the mapping (a reason is required), or
+                        the
+                        switch to make a row active / inactive.</p>
+                </div><span class="pill" id="lcount"></span>
+            </div>
+            <div class="tw">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Division</th>
+                            <th>Sales state</th>
+                            <th>Region</th>
+                            <th>Source HQ / Stockist HQ</th>
+                            <th>Product scope</th>
+                            <th>Effective period</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="listRows"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <div class="vm" id="vm" hidden role="dialog" aria-modal="true" aria-labelledby="vtitle">
+        <div class="vc">
+            <div class="vh">
+                <div><small>Source HQ mapping details</small>
+                    <h3 id="vtitle"></h3>
+                </div><span id="vstatus" class="pill"></span><button type="button" class="vx" id="vclose"
+                    aria-label="Close">×</button>
+            </div>
+            <div class="vf" id="vfields"></div>
+            <div class="vs">
+                <div class="vsh"><b>Source HQ / Stockist HQ <span class="cntb" id="vcount"></span></b><input
+                        id="vsearch" type="search" placeholder="Search HQ…" aria-label="Search HQ"></div>
+                <div class="vt" id="vtags"></div>
+            </div>
+            <div class="vb"><button type="button" class="btn sm" id="vedit">Edit</button><button type="button"
+                    class="btn p sm" id="vclose2" onclick="document.getElementById('vm').hidden=true">Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="vm" id="hm" hidden role="dialog" aria-modal="true" aria-labelledby="hmT">
+        <div class="vc">
+            <div class="vh">
+                <div><small id="hmS"></small>
+                    <h3 id="hmT"></h3>
+                </div><button type="button" class="vx" id="hmX" aria-label="Close">×</button>
+            </div>
+            <div class="vs">
+                <div class="vt tl" id="hmB"></div>
+            </div>
+            <div class="vb"><button type="button" class="btn p sm" id="hmC">Close</button></div>
+        </div>
+    </div>
+    <div class="vm" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="askT">
+        <div class="vc" style="width:min(460px,100%)">
+            <div class="vh">
+                <div><small>Reason required</small>
+                    <h3 id="askT"></h3>
+                </div><button type="button" class="vx" id="askX" aria-label="Close">×</button>
+            </div>
+            <div style="padding:0 16px 4px"><label class="l" for="askR">Reason for change <i>*</i></label><input
+                    id="askR" autocomplete="off" placeholder="Enter reason"><small class="ferr" id="askE" hidden>Please
+                    enter a
+                    reason</small></div>
+            <div class="vb"><button type="button" class="btn sm" id="askNo">Cancel</button><button type="button"
+                    class="btn p sm" id="askOk">Confirm</button></div>
+        </div>
+    </div>
+    <div id="toast" role="status"></div>
+    <script>
+        const DATA = {"emps": [["210316", "PREETESH MOHAN CHOUKEKAR", "VP-SALES", "MUMBAI", "2026-03-23", "HEALION - MUMBAI", "HEALION - MUMBAI", "", ""], ["210167", "SANJAY PARASNATH SHUKLA", "DGM-SLS", "MUMBAI", "2026-01-05", "HEALION - MUMBAI", "HEALION - MUMBAI", "", ""], ["210168", "RATHOD FAIZALMOHMED FIROJMOHMED", "SM", "MUMBAI", "2026-01-09", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210211", "SHASHIKANT SURESH KOLI", "RM", "MUMBAI", "2026-02-06", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210421", "MOHIT VILAS TUPONE", "TM", "MUMBAI-NAVI MUMBAI", "2026-06-08", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209588", "OMPRAKASH JETHOORAM YADAV", "AM", "MUMBAI", "2024-09-09", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210473", "ABHISHEK KUMAR TIWARI", "PTM", "MUMBAI-BYCULLA", "2026-06-15", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210215", "SUNNY SHASHIKANT YADAV", "PTM", "ANDHERI", "2026-02-07", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210583", "SHIV KUMAR YADAV", "PTM", "MUMBAI-GHATKOPAR", "2026-08-24", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210212", "AJAY KUMAR PANDEY", "AM", "MUMBAI", "2026-02-06", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210024", "MS.KANCHAN CHOGALAL CHOUDHARI", "TM", "MUMBAI-MIRA ROAD", "2025-10-06", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209831", "NIHAL NITYANAND DUBEY", "TM", "THANE", "2025-06-09", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210602", "CHANDAN YADAV", "PTM", "MUMBAI-BORIVALI", "2026-09-28", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209976", "ANIKET ANAND WADYEKAR", "TM", "MUMBAI-KALYAN", "2025-09-08", "HEALION - MUMBAI", "HEALION - MUMBAI", "SHASHIKANT SURESH KOLI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209803", "NILESH NANDKUMAR KADAM", "RM", "PUNE", "2025-05-05", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209943", "GAJANAN RAJU DESHMUKH", "AM", "PUNE", "2025-08-04", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210631", "MACHINDRA AJINATH SANAP", "PTM", "PUNE 1", "2026-10-15", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209723", "CHANDRAKANT DHONDIBA WANKHEDE", "TM", "PUNE 2", "2025-02-10", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209832", "SUNIL SURESH SHINDE", "TM", "PUNE 3", "2025-06-09", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210397", "JUBERAHAMAD BASHIR BARGIR", "PTM", "KOLHAPUR", "2026-05-12", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210266", "AKASH ATMARAM SHINDE", "PTM", "SANGLI", "2026-03-09", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210103", "CHETAN ASHOKKUMAR JAIN", "AM", "NASHIK", "2025-12-08", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209880", "DHIRAJ RAJENDRA KAKLIJ", "TM", "NASHIK+MALEGAON", "2025-07-07", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209154", "SHUBHAM DATTU JADHAV", "TM", "JALGAON", "2023-07-03", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210632", "SWAPNIL AMRUT THORAT", "PTM", "CH SAMBHAJI NAGAR", "2026-10-15", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210402", "MOHAMMADAHTESHAM SARFRAJ PATHAN", "PTM", "AHILYANAGAR", "2026-05-12", "HEALION - ROM", "HEALION - ROM", "NILESH NANDKUMAR KADAM", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209659", "PRADEEP SUBHASHRAO SADULVAR", "RM", "NAGPUR", "2024-12-09", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209878", "PANKAJ ARVIND KUNWAR", "AM", "NAGPUR", "2025-07-08", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210471", "MOHAMMAD KHALID SHAMIM AKHTAR ANSARI", "PTM", "NAGPUR 1", "2026-06-15", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210070", "GUNESHWAR MADANLAL BILLORE", "TM", "NAGPUR 2", "2025-11-05", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209882", "SHUBHAM PRAMODRAO RAUT", "TM", "AMRAVATI", "2025-07-07", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210470", "KAUSHAL KISHOR RAJKUMAR TIWARI", "PTM", "NAGPUR 3", "2026-06-15", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209877", "RAHUL NAMDEO ATKALE", "AM", "SOLAPUR", "2025-07-08", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210267", "SANTOSHKUMAR PARSHETTI", "TM", "SOLAPUR", "2026-03-09", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209747", "NAYANE BALAJI GYANOBA", "TM", "LATUR", "2025-03-06", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209540", "AZHAR ALI KHAN ABRAR ALI KHAN", "TM", "NANDED", "2024-08-05", "HEALION - ROM", "HEALION - ROM", "PRADEEP SUBHASHRAO SADULVAR", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209875", "SISARA GUNABHAI BHOLABHAI", "RM", "AHMEDABAD", "2025-07-07", "HEALION - GUJRAT", "HEALION - GUJRAT", "SISARA GUNABHAI BHOLABHAI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209942", "GAJERA JAYDIP", "AM", "SURAT", "2025-08-04", "HEALION - GUJRAT", "HEALION - GUJRAT", "SISARA GUNABHAI BHOLABHAI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210268", "HITESH MADANLAL VAISHNAV", "PTM", "SURAT 2", "2026-03-09", "HEALION - GUJRAT", "HEALION - GUJRAT", "SISARA GUNABHAI BHOLABHAI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210217", "KAPIL KANUPRASAD TRIVEDI", "TM", "AHMEDABAD 3", "2026-02-06", "HEALION - GUJRAT", "HEALION - GUJRAT", "SISARA GUNABHAI BHOLABHAI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209977", "RIBADIYA NIKHIL HARSUKHBHAI", "PTM", "JUNAGADH", "2025-09-08", "HEALION - GUJRAT", "HEALION - GUJRAT", "SISARA GUNABHAI BHOLABHAI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210105", "DHAMAL KARTIKKUMAR SHAMJIBHAI", "TM", "RAJKOT", "2025-12-08", "HEALION - GUJRAT", "HEALION - GUJRAT", "SISARA GUNABHAI BHOLABHAI", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210396", "ANUP GULATI", "ZM", "DELHI", "2026-05-12", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "", "ANUP GULATI"], ["210214", "RISHABH SRIVASTAVA", "AM", "DELHI", "2026-02-09", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["209835", "SALIM KHAN", "TM", "NORTH DELHI", "2025-06-09", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["209593", "KAUSHAL KISHOR", "TM", "WEST DELHI", "2024-09-13", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["209594", "ANKUR", "TM", "HISSAR", "2024-09-13", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["210400", "MS.SHABNAM SHAKYA", "PTM", "SOUTH DELHI 1", "2026-05-12", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["210219", "TARUN KUMAR PATHAK", "PTM", "SOUTH DELHI 2", "2026-02-06", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["210270", "SAHIL KHAN", "PTM", "EAST DELHI", "2026-03-09", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["210497", "ANUJ SHUKLA", "PTM", "GURGAON", "2026-07-06", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "VACANT", "ANUP GULATI"], ["210597", "MOTI SHARMA", "AM", "CHANDIGARH", "2026-09-16", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "NA", "ANUP GULATI"], ["210635", "SANDEEP UPADHYAY", "PTM", "CHANDIGARH", "2026-10-05", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "NA", "ANUP GULATI"], ["209836", "PUSHKAR KAUSHIK", "TM", "AMBALA", "2025-06-09", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "NA", "ANUP GULATI"], ["210218", "NISHCHAY THUKRAL", "PTM", "AMRITSAR", "2026-02-06", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "NA", "ANUP GULATI"], ["210107", "AMEET SINGH RAINA", "PTM", "JAMMU", "2025-12-08", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "NA", "ANUP GULATI"], ["209944", "MUZAMIL SHOWKAT MUKHDOOMI", "TM", "SRINAGAR", "2025-08-05", "HEALION - DELHI + JKPH", "HEALION - DELHI + JKPH", "NA", "ANUP GULATI"], ["210209", "SUJEET KUMAR KHARE", "SR ZM", "LUCKNOW", "2026-02-06", "HEALION - UP", "HEALION - UP", "", ""], ["208954", "MOHIT PANDEY", "RM", "LUCKNOW", "2022-12-06", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["208540", "AKASH ADARSH", "AM", "VARANASI", "2021-08-09", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["210582", "SHIVAM SINGH", "PTM", "VARANASI 1", "2026-08-26", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["209329", "ABHISHEK MISHRA", "TM", "VARANASI 2", "2024-01-08", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["209237", "ANISH ALAM", "TM", "GORAKHPUR", "2023-09-14", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["209331", "ASHUTOSH KUMAR", "TM", "PRAYAGRAJ", "2024-01-08", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["210027", "WAHEEDUL HAQ", "TM", "LUCKNOW 1", "2025-10-06", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["210598", "NEERAJ JAISWAL", "PTM", "LUCKNOW 2", "2026-09-16", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["209978", "LAVKUSH PANDEY", "TM", "AYODHYA", "2025-09-08", "HEALION - UP", "HEALION - UP", "MOHIT PANDEY", "VACANT"], ["208532", "DEEPAK KUMAR DUBEY", "RM", "MEERUT", "2021-08-06", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210581", "JEVESH TOMAR", "AM", "MEERUT", "2026-08-17", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210601", "ANIKET", "PTM", "MEERUT", "2026-09-16", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210332", "ABHISHEK PRATAP SINGH", "PTM", "GHAZIABAD", "2026-04-06", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210331", "ABHAY KUMAR", "PTM", "DEHRADUN", "2026-04-06", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210634", "MOHAMMAD AMIL ABBASI", "PTM", "MORADABAD", "2026-10-05", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210264", "RAVIKANT YADAV", "AM", "AGRA", "2026-03-10", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210333", "PAWAN DATT SHARMA", "PTM", "AGRA", "2026-04-06", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210496", "SAURAV CHAUDHARY", "PTM", "ALIGARH", "2026-07-06", "HEALION - UP", "HEALION - UP", "DEEPAK KUMAR DUBEY", "VACANT"], ["210026", "MANAS SINGH", "TM", "KANPUR", "2025-10-06", "HEALION - UP", "HEALION - UP", "PANKAJ KUMAR SHUKLA", "VACANT"], ["209468", "PRIYANATH HALDER", "TM", "KOLKATA", "2024-06-03", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209432", "AAKASH GHOSH", "TM", "KOLKATA", "2024-05-07", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209837", "TAMAL ROY", "PTM", "HOOGLY", "2025-06-09", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209760", "ARIJIT SAHA", "AM", "KOLKATA", "2025-04-07", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209981", "BIDISHA CHATTERJEE", "PTM", "BURDWAN", "2025-09-08", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209543", "SUBHAMOY DAS", "TM", "KOLKATA", "2024-08-05", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209467", "SUMAN SAHA", "TM", "KOLKATA", "2024-06-03", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209494", "JOYDEEP BHOWMICK", "TM", "KOLKATA", "2024-07-08", "HEALION - EAST", "HEALION - WEST BENGAL", "VACANT", "VACANT"], ["209876", "SANGRAM KESHARI SAHOO", "AM", "BHUBANESHWAR", "2025-07-07", "HEALION - EAST", "HEALION - ORISSA", "NA", "SUJEET KUMAR KHARE"], ["210637", "SUBHAM PRAKASH SAHOO", "PTM", "CUTTACK", "2026-10-19", "HEALION - EAST", "HEALION - ORISSA", "NA", "SUJEET KUMAR KHARE"], ["209749", "ASUTOSH SWAIN", "TM", "BHUBANESHWAR", "2025-03-06", "HEALION - EAST", "HEALION - ORISSA", "NA", "SUJEET KUMAR KHARE"], ["210636", "SURYAKANTA NAYAK", "PTM", "BHUBANESHWAR", "2026-10-19", "HEALION - EAST", "HEALION - ORISSA", "NA", "SUJEET KUMAR KHARE"], ["210596", "RAJIV RANJAN", "RM", "PATNA", "2026-09-16", "HEALION - EAST", "HEALION - BIHAR", "RAJIV RANJAN", "SUJEET KUMAR KHARE"], ["210335", "PANKAJ KUMAR MISHRA", "PTM", "PATNA", "2026-04-06", "HEALION - EAST", "HEALION - BIHAR", "RAJIV RANJAN", "SUJEET KUMAR KHARE"], ["210173", "ANAND KUMAR", "PTM", "PATNA", "2026-01-05", "HEALION - EAST", "HEALION - BIHAR", "RAJIV RANJAN", "SUJEET KUMAR KHARE"], ["209082", "SUSHIL KUMAR", "TM", "MUZAFFARPUR", "2023-04-03", "HEALION - EAST", "HEALION - BIHAR", "RAJIV RANJAN", "SUJEET KUMAR KHARE"], ["209382", "MONU KUMAR THAKUR", "TM", "BHAGALPUR", "2024-03-05", "HEALION - EAST", "HEALION - BIHAR", "RAJIV RANJAN", "SUJEET KUMAR KHARE"], ["209381", "VIKASH KUMAR", "TM", "PURNEA", "2024-03-05", "HEALION - EAST", "HEALION - BIHAR", "RAJIV RANJAN", "SUJEET KUMAR KHARE"], ["209459", "VENKATESAN", "AM", "CHENNAI", "2024-06-03", "HEALION - TAMIL NADU", "HEALION - TAMIL NADU", "VACANT", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210599", "SENTHAMILVALAVAN R", "PTM", "CHENNAI", "2026-09-16", "HEALION - TAMIL NADU", "HEALION - TAMIL NADU", "VACANT", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210336", "DURAISAMY DHARMALINGAM", "PTM", "SALEM", "2026-04-06", "HEALION - TAMIL NADU", "HEALION - TAMIL NADU", "VACANT", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209460", "PRAVEEN KUMAR GANESHBABU", "AM", "MADURAI", "2024-06-03", "HEALION - TAMIL NADU", "HEALION - TAMIL NADU", "VACANT", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210221", "VIVEK SINGARAJ", "PTM", "MADURAI", "2026-02-06", "HEALION - TAMIL NADU", "HEALION - TAMIL NADU", "VACANT", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["209464", "MOHAMMED MUQTHAR T K", "TM", "TRICHY", "2024-06-06", "HEALION - TAMIL NADU", "HEALION - TAMIL NADU", "VACANT", "RATHOD FAIZALMOHMED FIROJMOHMED"], ["210630", "DEVASOTH ROOP SINGH", "RM", "HYDERABAD", "2026-10-05", "HEALION - TELANGANA", "HEALION - HYDERABAD", "DEVASOTH ROOP SINGH", "VACANT"], ["210169", "KANDUKURI PRASHANTH", "PTM", "HYDERABAD", "2026-01-05", "HEALION - TELANGANA", "HEALION - HYDERABAD", "DEVASOTH ROOP SINGH", "VACANT"], ["210340", "GODE SURAJ", "PTM", "HYDERABAD", "2026-04-06", "HEALION - TELANGANA", "HEALION - HYDERABAD", "DEVASOTH ROOP SINGH", "VACANT"], ["208904", "BOLLAVENI ANIL KUMAR", "TM", "KARIMNAGAR", "2022-09-19", "HEALION - TELANGANA", "HEALION - HYDERABAD", "DEVASOTH ROOP SINGH", "VACANT"], ["209638", "GOMPA MOHAN KANAKA SAI", "AM", "VIZAG", "2024-11-09", "HEALION - ANDHRA PRADESH", "HEALION - VIJAYWADA", "VACANT", "VACANT"], ["210341", "SHAIK RAHAMAN", "PTM", "GUNTUR", "2026-04-06", "HEALION - ANDHRA PRADESH", "HEALION - VIJAYWADA", "VACANT", "VACANT"], ["210633", "VADDE BHARATH", "PTM", "KURNOOL", "2026-10-05", "HEALION - ANDHRA PRADESH", "HEALION - VIJAYWADA", "VACANT", "VACANT"], ["210600", "PENDYALA SAI MANOJ", "PTM", "RAJAMUNDRY", "2026-09-16", "HEALION - ANDHRA PRADESH", "HEALION - VIJAYWADA", "VACANT", "VACANT"], ["209527", "ROHAN ULLHAS RAYKAR", "DM", "BANGALORE", "2024-08-06", "HEALION - KARNATAKA", "HEALION - BANGALORE", "", "ROHAN ULLHAS RAYKAR"], ["209622", "AMARESHA A", "AM", "BANGALORE", "2024-10-14", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["210269", "M BHARATH", "TM", "BANGALORE", "2026-03-09", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["209729", "DHANUSH T", "TM", "BANGALORE", "2025-02-10", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["210399", "R RAGHU", "PTM", "BANGALORE", "2026-05-12", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["209657", "BHARATEESH A NAGANUR", "AM", "HUBLI", "2024-12-09", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["210342", "MAHMADYASHIN ALLABHAKSH MUNAVALLI", "PTM", "HUBLI", "2026-04-06", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["210474", "DNYANESHWAR GOPAL MENASE", "PTM", "BELGAUM", "2026-06-15", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["210498", "SHREE GANESH", "PTM", "GULBARGA", "2026-07-06", "HEALION - KARNATAKA", "HEALION - BANGALORE", "NA", "ROHAN ULLHAS RAYKAR"], ["210595", "NAVANEETHAN R", "RM", "COCHIN", "2026-09-18", "HEALION - KERALA", "HEALION - COCHIN", "NAVANEETHAN R", "ROHAN ULLHAS RAYKAR"], ["210499", "LALISH P V", "PTM", "CALICUT", "2026-07-06", "HEALION - KERALA", "HEALION - COCHIN", "NAVANEETHAN R", "ROHAN ULLHAS RAYKAR"], ["210172", "MUHAMMAD AMEEN N", "PTM", "TRIVANDRUM", "2026-01-05", "HEALION - KERALA", "HEALION - COCHIN", "NAVANEETHAN R", "ROHAN ULLHAS RAYKAR"]], "mgr": ["ANUP GULATI", "DEEPAK KUMAR DUBEY", "DEVASOTH ROOP SINGH", "MOHIT PANDEY", "NA", "NAVANEETHAN R", "NILESH NANDKUMAR KADAM", "PANKAJ KUMAR SHUKLA", "PRADEEP SUBHASHRAO SADULVAR", "RAJIV RANJAN", "RATHOD FAIZALMOHMED FIROJMOHMED", "ROHAN ULLHAS RAYKAR", "SHASHIKANT SURESH KOLI", "SISARA GUNABHAI BHOLABHAI", "SUJEET KUMAR KHARE", "VACANT"], "tree": {"HEALION - MUMBAI": {"HEALION - MUMBAI": ["ANDHERI", "MUMBAI", "MUMBAI-BORIVALI", "MUMBAI-BYCULLA", "MUMBAI-DADAR", "MUMBAI-GHATKOPAR", "MUMBAI-KALYAN", "MUMBAI-MIRA ROAD", "MUMBAI-NAVI MUMBAI", "THANE"]}, "HEALION - ROM": {"HEALION - ROM": ["AHILYANAGAR", "AMRAVATI", "CH SAMBHAJI NAGAR", "JALGAON", "KOLHAPUR", "LATUR", "NAGPUR", "NAGPUR 1", "NAGPUR 2", "NAGPUR 3", "NANDED", "NASHIK", "NASHIK+MALEGAON", "PUNE", "PUNE 1", "PUNE 2", "PUNE 3", "SANGLI", "SOLAPUR"]}, "HEALION - GUJRAT": {"HEALION - GUJRAT": ["AHMEDABAD", "AHMEDABAD 1", "AHMEDABAD 2", "AHMEDABAD 3", "JUNAGADH", "RAJKOT", "SURAT", "SURAT 1", "SURAT 2"]}, "HEALION - DELHI + JKPH": {"HEALION - DELHI + JKPH": ["AMBALA", "AMRITSAR", "CENTRAL DELHI", "CHANDIGARH", "DELHI", "EAST DELHI", "GURGAON", "HISSAR", "JAMMU", "LUDHIANA", "NORTH DELHI", "SOUTH DELHI 1", "SOUTH DELHI 2", "SRINAGAR", "WEST DELHI"]}, "HEALION - UP": {"HEALION - UP": ["AGRA", "ALIGARH", "AYODHYA", "BAREILLY", "DEHRADUN", "GHAZIABAD", "GORAKHPUR", "KANPUR", "LUCKNOW", "LUCKNOW 1", "LUCKNOW 2", "LUCKNOW 3", "MEERUT", "MORADABAD", "PRAYAGRAJ", "VARANASI", "VARANASI 1", "VARANASI 2"]}, "HEALION - EAST": {"HEALION - WEST BENGAL": ["BURDWAN", "HOOGLY", "KOLKATA", "MIDNAPORE"], "HEALION - ORISSA": ["BHUBANESHWAR", "CUTTACK"], "HEALION - BIHAR": ["BHAGALPUR", "MUZAFFARPUR", "PATNA", "PURNEA"]}, "HEALION - TAMIL NADU": {"HEALION - TAMIL NADU": ["CHENNAI", "COIMBATORE", "MADURAI", "SALEM", "THIRUNELVELI", "TRICHY"]}, "HEALION - TELANGANA": {"HEALION - HYDERABAD": ["HYDERABAD", "KARIMNAGAR", "VIJAYAWADA"]}, "HEALION - ANDHRA PRADESH": {"HEALION - VIJAYWADA": ["GUNTUR", "KURNOOL", "NELLORE", "RAJAMUNDRY", "VIJAYAWADA", "VIZAG"]}, "HEALION - KARNATAKA": {"HEALION - BANGALORE": ["BANGALORE", "BELGAUM", "GULBARGA", "HUBLI"]}, "HEALION - KERALA": {"HEALION - COCHIN": ["CALICUT", "COCHIN", "ERNAKULAM", "THRISSUR", "TRIVANDRUM"]}}};
+        const EMP = DATA.emps.map(a => ({code: a[0], name: a[1], desg: a[2], hq: a[3], doj: a[4], state: a[5], region: a[6], rm: a[7], dm: a[8]}));
+        const DIV = 'HEALION', MGRS = DATA.mgr;
+        /* Login-enabled divisions: HEALION is the main division (default), GENX is optional.
+           NOTE: GENX geography is generated from the HEALION structure as a placeholder - replace with real GENX data. */
+        const EXTRA = ['NEXA', 'VITA', 'ORTHO', 'DERMA', 'CARDIO', 'NEURO', 'GASTRO', 'ONCO'];   /* placeholder division names */
+        const ALLDIV = ['HEALION', 'GENX', ...EXTRA];   /* every division in the company */
+        const EMPDIV = {'209803': ['HEALION', 'GENX', 'NEXA', 'VITA']};                              /* login-enabled divisions per employee; default = HEALION (main) + GENX (optional) */
+        const divsOf = c => c ? (EMPDIV[c] || ['HEALION', 'GENX']) : [];   /* none until an employee is selected */
+        let LOGIN = divsOf(null);
+        const TREEBY = {HEALION: DATA.tree};
+        ALLDIV.filter(n => n !== 'HEALION').forEach(N => {
+            TREEBY[N] = Object.fromEntries(Object.entries(DATA.tree).map(([st, rg]) => [st.replace('HEALION', N), Object.fromEntries(Object.entries(rg).map(([r, h]) => [r.replace('HEALION', N), h]))]))
+        });
+        const uq = a => [...new Set(a)];
+        const POOL = ['POOL HQ - MUMBAI', 'POOL HQ - PUNE', 'POOL HQ - DELHI', 'POOL HQ - LUCKNOW', 'POOL HQ - KOLKATA', 'POOL HQ - CHENNAI', 'POOL HQ - HYDERABAD', 'POOL HQ - BENGALURU', 'POOL HQ - AHMEDABAD', 'POOL HQ - KOCHI'];
+        const $ = s => document.querySelector(s);
+        const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+        const fd = d => d ? d.split('-').reverse().join('-') : '—';
+        let toastT;
+        const toast = (m, ok) => {
+            const t = $('#toast');
+            const ic = ok ? '<path d="M5 13l4 4L19 7"/>' : '<path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18h.01"/>';
+            t.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg><span>${esc(m)}</span>`;
+            t.classList.toggle('ok', !!ok); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 3200)
+        };
+        const tags = a => a.map(x => `<span class="tag">${esc(x)}</span>`).join('');
+        const clone = o => JSON.parse(JSON.stringify(o));
+
+        /* Searchable dropdown: opens with every option; typing filters. Multi mode adds "Select all". */
+        function MS(root, {ph, noun = 'items', multi = true, onChange = () => { }}) {
+            let opts = [], sel = new Set(), q = '';
+            root.innerHTML = `<div class="ms"><button type="button" class="ms-btn" aria-haspopup="listbox"><span class="ms-val"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button><div class="ms-panel" hidden><input class="ms-s" type="search" placeholder="Search ${noun}…" aria-label="Search ${noun}"><label class="ms-opt ms-all"><input type="checkbox"> Select all</label><div class="ms-list" role="listbox"></div></div></div>`;
+            const box = root.firstChild, btn = box.querySelector('.ms-btn'), val = box.querySelector('.ms-val'), panel = box.querySelector('.ms-panel'), s = box.querySelector('.ms-s'), all = box.querySelector('.ms-all'), allCb = all.querySelector('input'), list = box.querySelector('.ms-list');
+            if (!multi) all.style.display = 'none';
+            const vis = () => opts.filter(o => o.toLowerCase().includes(q));
+            function summary() {
+                const n = sel.size; val.classList.toggle('ph', !n); val.classList.toggle('cv', multi && n > 0);
+                if (!n) val.textContent = ph;
+                else if (!multi) val.textContent = [...sel][0];
+                else if (n === 1) val.innerHTML = `<span class="mc">${esc([...sel][0])}<span class="x" data-x="${esc([...sel][0])}" title="Remove">×</span></span>`;
+                else val.innerHTML = `<span class="mc cnt" title="${esc([...sel].join(', '))}">${n === opts.length ? 'All ' : ''}${n} selected<span class="x" data-all="1" title="Clear all">×</span></span>`;
+                btn.disabled = !opts.length
+            }
+            function draw() {
+                const v = vis();
+                list.innerHTML = v.length ? v.map(o => `<label class="ms-opt"><input type="${multi ? 'checkbox' : 'radio'}" name="${root.id}" value="${esc(o)}" ${sel.has(o) ? 'checked' : ''}> ${esc(o)}</label>`).join('') : '<div class="ms-empty">No match found</div>';
+                allCb.checked = v.length > 0 && v.every(o => sel.has(o)); summary()
+            }
+            const open = f => {if (btn.disabled) return; box.classList.toggle('open', f); panel.hidden = !f; if (f) {s.value = ''; q = ''; draw(); s.focus()} };
+            btn.onclick = e => {const x = e.target.closest('.x'); if (x) {x.dataset.all ? sel.clear() : sel.delete(x.dataset.x); draw(); onChange(api.get()); return } open(panel.hidden)};
+            s.oninput = () => {q = s.value.toLowerCase(); draw()};
+            allCb.onchange = () => {vis().forEach(o => allCb.checked ? sel.add(o) : sel.delete(o)); draw(); onChange(api.get())};
+            list.onchange = e => {const v = e.target.value; if (multi) e.target.checked ? sel.add(v) : sel.delete(v); else {sel = new Set([v]); open(false)} draw(); onChange(api.get())};
+            box.onkeydown = e => {if (e.key === 'Escape') {open(false); btn.focus()} };
+            document.addEventListener('click', e => {if (!box.contains(e.target)) open(false)});
+            const api = {
+                get: () => [...sel],
+                set(o, keep) {opts = o; sel = new Set(keep ? [...sel].filter(x => o.includes(x)) : []); q = ''; draw()},
+                pick(a) {sel = new Set(a.filter(x => opts.includes(x))); draw()}
+            };
+            draw(); return api;
+        }
+
+        /* widgets */
+        /* Cascading multi-select chain: Division -> State -> Region -> HQ */
+        function chain(ids, hqPh, hqNoun, single, onDiv, divSrc) {
+            const T = d => TREEBY[d] || {};
+            const stO = () => uq(div.get().flatMap(d => Object.keys(T(d)))),
+                rgO = () => uq(div.get().flatMap(d => state.get().flatMap(s => Object.keys(T(d)[s] || {})))),
+                hqO = () => uq(div.get().flatMap(d => state.get().flatMap(s => region.get().flatMap(r => (T(d)[s] || {})[r] || [])))).sort();
+            const fromRegion = () => hq.set(hqO(), true),
+                fromState = () => {region.set(rgO(), true); fromRegion()},
+                fromDiv = () => {state.set(stO(), true); fromState()};
+            const div = MS(ids.d, {ph: 'Select Division', noun: 'divisions', multi: !single, onChange: () => {fromDiv(); onDiv && onDiv()}}),
+                state = MS(ids.s, {ph: 'Select Sales State', noun: 'states', onChange: fromState}),
+                region = MS(ids.r, {ph: 'Select Region', noun: 'regions', onChange: fromRegion}),
+                hq = MS(ids.h, {ph: hqPh, noun: hqNoun});
+            div.set(divSrc ? divSrc() : LOGIN);
+            return {
+                div, state, region, hq,
+                get: () => ({divs: div.get(), states: state.get(), regions: region.get(), hqs: hq.get()}),
+                load(v) {
+                    div.set(divSrc ? divSrc() : LOGIN); div.pick(v.divs || []); state.set(stO()); state.pick(v.states || []);
+                    region.set(rgO()); region.pick(v.regions || []); hq.set(hqO()); hq.pick(v.hqs || [])
+                }
+            }
+        }
+        const msMgr = MS($('#msMgr'), {ph: 'Select Reporting Manager(s)', noun: 'managers'});
+        const opt = (ph, a) => `<option value="">${ph}</option>` + a.map(x => `<option>${esc(x)}</option>`).join('');
+        $('#pool').innerHTML = opt('Select Pool HQ', POOL);
+        /* Login-enabled divisions: first two shown as chips, "+N" icon opens the full list */
+        function renderDivs() {
+            const L = LOGIN, chip = (n, i) => `<span class="tg ${i ? 'opt' : ''}">${esc(n)}<em>${i ? 'Additional' : 'Main'}</em></span>`;
+            $('#odiv').innerHTML = L.length ? L.slice(0, 2).map((n, i) => chip(n, i)).join('') : '<span style="color:var(--mute)">—</span>';
+            $('#dmore').innerHTML = L.length > 2 ? `<button type="button" class="more" aria-expanded="false" aria-haspopup="true" title="View all ${L.length} divisions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>+${L.length - 2}</button>` : '';
+            $('#odivw .dpop')?.remove();
+            if (L.length > 2) $('#odivw').insertAdjacentHTML('beforeend', `<div class="dpop" hidden><b><span>All login-enabled divisions</span><span>${L.length}</span></b><div class="dl">${L.map((n, i) => chip(n, i)).join('')}</div></div>`);
+            const m = $('#dmore .more'); if (m) m.onclick = e => {e.stopPropagation(); const p = $('#odivw .dpop'); p.hidden = !p.hidden; m.setAttribute('aria-expanded', !p.hidden)}
+        }
+        const closeDpop = () => {const p = $('#odivw .dpop'), m = $('#dmore .more'); if (p && !p.hidden) {p.hidden = true; m && m.setAttribute('aria-expanded', 'false')} };
+        document.addEventListener('click', e => {if (!e.target.closest('#odivw')) closeDpop()});
+        document.addEventListener('keydown', e => {if (e.key === 'Escape') closeDpop()});
+        renderDivs();
+
+        /* ===== versioning helpers: effective-to is always calculated, never typed ===== */
+        const pad = n => String(n).padStart(2, '0');
+        const today = () => {const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`};
+        const prevDay = d => {const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() - 1); return t.toISOString().slice(0, 10)};
+        /* old version ends the day before the new one starts (never earlier than its own start) */
+        const endFor = (oldFrom, newFrom) => {const e = prevDay(newFrom); return e < oldFrom ? oldFrom : e};
+        const fdt = t => new Date(t).toLocaleString('en-GB', {day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'});
+        const period = x => `${fd(x.from)}<span class="arr">→</span>${x.active === false ? 'Inactive' : 'Present'}`;
+        const cut = a => a.length > 4 ? a.slice(0, 4).join(', ') + ` +${a.length - 4} more` : a.join(', ');
+        function setDiff(a = [], b = [], label) {
+            const add = b.filter(x => !a.includes(x)), rem = a.filter(x => !b.includes(x)), p = [];
+            if (add.length) p.push('added ' + cut(add)); if (rem.length) p.push('removed ' + cut(rem));
+            return p.length ? `${label}: ${p.join(' · ')}` : ''
+        }
+        function diffSales(a, b) {
+            const o = [], A = Object.fromEntries(a.rows.map(r => [r.div, r])), B = Object.fromEntries(b.rows.map(r => [r.div, r]));
+            Object.keys(B).forEach(k => {
+                if (!A[k]) o.push(`${k}: division added`);
+                else[['states', 'Sales state'], ['regions', 'Region'], ['hqs', 'Sales HQ']].forEach(([f, l]) => {const t = setDiff(A[k][f], B[k][f], `${k} · ${l}`); if (t) o.push(t)})
+            });
+            Object.keys(A).forEach(k => {if (!B[k]) o.push(`${k}: division removed`)});
+            const m = setDiff(a.mgrs, b.mgrs, 'Reporting manager'); if (m) o.push(m);
+            if (a.pool !== b.pool) o.push(`Pool HQ: ${a.pool || '—'} → ${b.pool || '—'}`);
+            return o
+        }
+        function diffSrc(r, s) {
+            const o = [], A = Object.fromEntries(r.rows.map(x => [x.div, x])), B = Object.fromEntries(s.rows.map(x => [x.div, x]));
+            Object.keys(B).forEach(k => {
+                if (!A[k]) o.push(`${k}: division added`);
+                else[['states', 'Sales state'], ['regions', 'Region'], ['hqs', 'Source HQ']].forEach(([f, l]) => {const t = setDiff(A[k][f], B[k][f], `${k} · ${l}`); if (t) o.push(t)})
+            });
+            Object.keys(A).forEach(k => {if (!B[k]) o.push(`${k}: division removed`)});
+            {const t = setDiff(sc(r.scope), sc(s.scope), 'Product scope'); if (t) o.push(t)}
+            return o
+        }
+        /* a Source HQ row keeps its own list of earlier versions in row.hist */
+        function commitSrc(row, next, from, reason, changes) {
+            const {hist, ...snap} = clone(row);
+            row.hist.push({...snap, to: endFor(row.from, from)});
+            Object.assign(row, next, {from, reason, at: Date.now(), changes})
+        }
+        const newRow = (s, changes) => ({id: ++rid, active: true, ...s, at: Date.now(), changes, hist: []});
+
+        /* reason dialog (used for the active / inactive switch) */
+        function askReason(title) {
+            return new Promise(res => {
+                const m = $('#ask'), i = $('#askR'), e = $('#askE'); $('#askT').textContent = title; i.value = ''; e.hidden = true; m.hidden = false; i.focus();
+                const done = v => {m.hidden = true; $('#askOk').onclick = $('#askNo').onclick = $('#askX').onclick = i.onkeydown = null; res(v)};
+                $('#askOk').onclick = () => {const v = i.value.trim(); if (!v) {e.hidden = false; return i.focus()} done(v)};
+                $('#askNo').onclick = $('#askX').onclick = () => done(null);
+                i.onkeydown = ev => {if (ev.key === 'Enter') {ev.preventDefault(); $('#askOk').click()} if (ev.key === 'Escape') done(null)}
+            })
+        }
+
+        /* history timeline: versions are oldest → newest, the open one has no "to" */
+        function showHistory(title, sub, versions) {
+            $('#hmT').textContent = title; $('#hmS').textContent = sub;
+            $('#hmB').innerHTML = [...versions].reverse().map(v => `<div class="hv ${v.to ? '' : 'cur'}"><div class="hr"><span>${fd(v.from)}</span><span class="arr">→</span><span>${v.to ? fd(v.to) : (v.active === false ? 'Inactive' : 'Present')}</span>${v.to ? '' : '<span class="pill okp">Current</span>'}</div>
+  <div class="hm">Saved ${fdt(v.at)} · Reason: ${esc(v.reason)}</div>
+  <ul class="hc">${(v.changes || []).map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>`).join('');
+            $('#hm').hidden = false
+        }
+        const closeHist = () => $('#hm').hidden = true;
+        $('#hmX').onclick = $('#hmC').onclick = closeHist;
+        $('#hm').onclick = e => {if (e.target.id === 'hm') closeHist()};
+        document.addEventListener('keydown', e => {if (e.key === 'Escape' && !$('#hm').hidden) closeHist()});
+
+        /* state */
+        const saved = {}, shist = {}, lists = {}, blocks = []; let cur = null, uid = 0, rid = 0, suid = 0, mode = "new"; const srows = [];
+        const empOf = c => EMP.find(e => e.code === c);
+        const mgrOf = e => e.rm && e.rm !== e.name ? e.rm : (e.dm || e.rm || '');
+        /* Product scope: placeholder tablet / product names - replace with your real product master */
+        const PRODUCTS = [
+            'Paracetamol 500mg Tablet', 'Ibuprofen 400mg Tablet', 'Diclofenac 50mg Tablet', 'Azithromycin 500mg Tablet',
+            'Amoxicillin 500mg Capsule', 'Cetirizine 10mg Tablet', 'Levocetirizine 5mg Tablet', 'Montelukast 10mg Tablet',
+            'Pantoprazole 40mg Tablet', 'Rabeprazole 20mg Tablet', 'Ondansetron 4mg Tablet', 'Metformin 500mg Tablet',
+            'Glimepiride 2mg Tablet', 'Atorvastatin 10mg Tablet', 'Rosuvastatin 10mg Tablet', 'Amlodipine 5mg Tablet',
+            'Telmisartan 40mg Tablet', 'Losartan 50mg Tablet', 'Vitamin D3 60K Capsule', 'Calcium + Vitamin D3 Tablet',
+            'B-Complex Tablet', 'Cough Syrup', 'ORS Powder', 'Pain Relief Gel'
+        ];
+        const sc = a => Array.isArray(a) ? a : [];
+        const scopeTxt = a => sc(a).length ? sc(a).join(', ') : 'All permitted products';
+
+        /* Chip input (like "Panel members"): chips show on top, the search box is below.
+           Pick from the list, or type names separated by commas (comma / Enter / leaving the box adds them). */
+        function TagBox(root, catalog) {
+            let items = [], shown = [], hl = -1;
+            root.innerHTML = `<div class="tb"><div class="tb-chips"></div><div class="tb-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="text" autocomplete="off" placeholder="Search to add tablet / product names (separate with commas)…" aria-label="Add product"></div><div class="tb-list" hidden></div></div>`;
+            const chips = root.querySelector('.tb-chips'), inp = root.querySelector('input'), list = root.querySelector('.tb-list');
+            const key = t => t.toLowerCase(), has = t => items.some(i => key(i) === key(t));
+            const add = raw => {const t = raw.trim().replace(/\s+/g, ' '); if (!t) return; const v = catalog.find(c => key(c) === key(t)) || t; if (!has(v)) items.push(v)};
+            const draw = () => {chips.innerHTML = items.map((t, i) => `<span class="tb-chip" title="${esc(t)}"><i>${esc(t[0].toUpperCase())}</i><span>${esc(t)}</span><button type="button" data-i="${i}" aria-label="Remove ${esc(t)}">×</button></span>`).join('')};
+            const seg = () => inp.value.slice(inp.value.lastIndexOf(',') + 1).trim();      /* text after the last comma */
+            function suggest() {
+                const q = key(seg()); shown = catalog.filter(c => !has(c) && (!q || key(c).includes(q))).slice(0, 8); hl = -1;
+                list.innerHTML = shown.length ? shown.map((c, i) => `<div class="tb-opt" data-i="${i}">${esc(c)}</div>`).join('')
+                    : `<div class="ms-empty">${q ? `Press Enter or comma to add “${esc(seg())}”` : 'No more products to add'}</div>`;
+                list.hidden = false
+            }
+            function flush() {inp.value.split(',').forEach(add); inp.value = ''; draw(); return items.slice()}
+            function pick(v) {add(v); inp.value = inp.value.slice(0, inp.value.lastIndexOf(',') + 1); draw(); suggest()}
+            inp.oninput = () => {
+                if (inp.value.includes(',')) {const p = inp.value.split(','), rest = p.pop(); p.forEach(add); inp.value = rest.trimStart(); draw()}
+                suggest()
+            };
+            inp.onfocus = suggest;
+            inp.onblur = () => {flush(); list.hidden = true};
+            inp.onkeydown = e => {
+                if (e.key === 'Enter') {e.preventDefault(); hl >= 0 && shown[hl] ? pick(shown[hl]) : (flush(), suggest())}
+                else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    e.preventDefault(); if (!shown.length) return;
+                    hl = (hl + (e.key === 'ArrowDown' ? 1 : -1) + shown.length) % shown.length;
+                    list.querySelectorAll('.tb-opt').forEach((o, i) => o.classList.toggle('hl', i === hl))
+                }
+                else if (e.key === 'Backspace' && !inp.value && items.length) {items.pop(); draw(); suggest()}
+                else if (e.key === 'Escape') list.hidden = true
+            };
+            list.onmousedown = e => {const o = e.target.closest('.tb-opt'); if (o) {e.preventDefault(); pick(shown[+o.dataset.i])} };
+            chips.onclick = e => {const x = e.target.closest('button[data-i]'); if (x) {items.splice(+x.dataset.i, 1); draw()} };
+            draw();
+            return {get: () => items.slice(), flush, set(a) {items = [...new Set(sc(a))]; inp.value = ''; draw()} }
+        }
+
+        /* Source HQ divisions = every division the employee can NOT log in to (those are already covered by Sales HQ).
+           One Source HQ mapping holds one or more division rows (Division + State + Region + Source HQ),
+           exactly like Sales HQ. Effective from, Reason and Product scope are common to the whole mapping.
+           A division can be picked only once across all rows. */
+        const srcDivs = () => cur ? ALLDIV.filter(d => !LOGIN.includes(d)) : [];
+        const srcOpts = extra => [...new Set([...srcDivs(), ...(extra || [])])];
+        /* flat view of a saved mapping (for the list, the view card, the history titles) */
+        const fl = x => {const R = x.rows || []; return {divs: R.map(r => r.div), states: uq(R.flatMap(r => r.states)), regions: uq(R.flatMap(r => r.regions)), src: uq(R.flatMap(r => r.hqs))}};
+        const allD = () => blocks.flatMap(b => b.drows);
+        function refreshSrcDivOpts() {
+            const all = allD();
+            all.forEach(r => {
+                const used = all.filter(o => o !== r).flatMap(o => o.ch.get().divs);
+                r.ch.div.set(srcOpts(r.extra).filter(d => !used.includes(d)), true)
+            });
+            const total = srcOpts(all.flatMap(r => r.extra)).length, full = all.length >= total;
+            blocks.forEach(b => b.q('.addD').hidden = full);
+            $('#addSrc').hidden = full;
+            $('#srcHint').textContent = total
+                ? `Each mapping can hold several divisions – use “Add another division” to give another division its own State, Region and Source HQ. Only divisions this employee cannot log in to are listed (${LOGIN.join(', ')} are covered by Sales HQ), and a division picked once is not shown again.`
+                : 'This employee has login access to every division, so there is no other division to map as Source HQ.'
+        }
+        const rows = () => lists[cur] || [];
+
+        /* one division row inside a mapping */
+        function addDRow(b, x) {
+            const k = ++uid, el = document.createElement('div'); el.className = 'drow';
+            el.innerHTML = `<div class="drh"><b class="dt"></b><button type="button" class="btn sm drm">Remove</button></div><div class="grid">
+ <div><label class="l">Division <i>*</i></label><div class="d"></div></div>
+ <div><label class="l">Sales state <i>*</i></label><div class="st"></div></div>
+ <div><label class="l">Region <i>*</i></label><div class="rg"></div></div>
+ <div><label class="l">Source HQ / Stockist HQ <i>*</i></label><div class="sh"></div></div></div>`;
+            b.q('.drows').appendChild(el);
+            const q = s => el.querySelector(s); q('.d').id = 'xd' + k; q('.st').id = 'xs' + k; q('.rg').id = 'xr' + k; q('.sh').id = 'xh' + k;
+            const own = x.div ? [x.div] : [];
+            const r = {
+                el, q, extra: own,
+                ch: chain({d: q('.d'), s: q('.st'), r: q('.rg'), h: q('.sh')}, 'Select Source HQ / Stockist HQ', 'Source HQs',
+                    true, refreshSrcDivOpts, () => srcOpts(own))                 /* single division, never a login-enabled one */
+            };
+            r.ch.load({divs: own, states: x.states, regions: x.regions, hqs: x.hqs});
+            b.drows.push(r);
+            q('.drm').onclick = () => {b.drows.splice(b.drows.indexOf(r), 1); el.remove(); renumberD(b); refreshSrcDivOpts()};
+            renumberD(b); return r
+        }
+        const renumberD = b => b.drows.forEach((r, i) => {r.q('.dt').textContent = `Division mapping ${i + 1}`; r.q('.drm').hidden = b.drows.length < 2});
+
+        /* one Source HQ mapping = one block */
+        function addBlock(d, editId) {
+            const el = document.createElement('div'); el.className = 'blk';
+            el.innerHTML = `<div class="bh"><b class="bt"></b><button type="button" class="btn sm rm">Remove</button></div>
+ <div class="drows"></div>
+ <button class="btn add addD" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add another division</button>
+ <div class="sec">Common for all divisions in this mapping</div>
+ <div class="grid">
+ <div class="sfw"><label class="l lf">Effective from <i>*</i></label><input class="sf" type="date"><small class="eh" hidden></small></div>
+ <!-- reason / comment: col-md-9 (9 of 12 = 3 of the 4 grid columns) -->
+ <div class="c3 srw"><label class="l lr">Reason / remarks <i>*</i></label><input class="sr" placeholder="Enter reason for adding or changing Source HQ"></div>
+ <div class="c4"><label class="l">Product scope <span class="opt">(optional – leave empty for all permitted products)</span></label><div class="ps"></div></div></div>`;
+            $('#srcBlocks').appendChild(el);
+            const q = s => el.querySelector(s);
+            const b = {el, q, editId: editId || 0, drows: [], ps: TagBox(q('.ps'), PRODUCTS)};
+            blocks.push(b);
+            const x = d || {rows: [], scope: [], from: mode === 'edit' ? today() : ((empOf(cur) || {}).doj || ''), reason: ''};
+            (x.rows.length ? x.rows : [{}]).forEach(r => addDRow(b, r));
+            b.ps.set(x.scope); q('.sf').value = editId ? today() : x.from; q('.sr').value = editId ? '' : x.reason;
+            const eh = q('.eh'), sfe = q('.sf');
+            b.hint = () => {
+                const row = b.editId && rows().find(r => r.id === b.editId); if (!row || !sfe.value) {eh.hidden = true; return }
+                const bad = sfe.value <= row.from; eh.hidden = false; eh.style.color = bad ? 'var(--bad)' : 'var(--mute)';
+                eh.textContent = bad ? `Must be after ${fd(row.from)} (start of this mapping)` : `Current mapping (from ${fd(row.from)}) will end on ${fd(endFor(row.from, sfe.value))}`
+            };
+            sfe.addEventListener('input', b.hint);
+            q('.addD').onclick = () => {const r = addDRow(b, {}); refreshSrcDivOpts(); r.el.scrollIntoView({behavior: 'smooth', block: 'center'})};
+            q('.rm').onclick = () => {blocks.splice(blocks.indexOf(b), 1); el.remove(); blocks.length ? renumber() : addBlock(); refreshSrcDivOpts()};
+            renumber(); b.hint(); refreshSrcDivOpts(); return b
+        }
+        function renumber() {
+            let k = 0; blocks.forEach(b => {
+                b.q('.bt').textContent = b.editId ? 'Editing Source HQ mapping' : `New Source HQ mapping ${++k}`;
+                b.q('.lf').innerHTML = (b.editId ? 'New effective from' : 'Effective from') + ' <i>*</i>';
+                b.q('.lr').innerHTML = (b.editId ? 'Reason for edit' : 'Reason / remarks') + ' <i>*</i>';
+                b.q('.sr').placeholder = b.editId ? 'Why are you changing this Source HQ mapping?' : 'Enter reason for adding or changing Source HQ';
+                const rm = b.q('.rm'); rm.hidden = blocks.length < 2 && !b.editId; rm.textContent = b.editId ? 'Cancel' : 'Remove'; b.el.classList.toggle('editing', !!b.editId)
+            })
+        }
+        const readBlock = b => ({
+            rows: b.drows.map(r => {const g = r.ch.get(); return {div: g.divs[0] || '', states: g.states, regions: g.regions, hqs: g.hqs}}),
+            scope: b.ps.flush(), from: b.q('.sf').value, reason: b.q('.sr').value.trim()
+        });
+        const isBlank = b => !b.editId && b.drows.every(r => !r.ch.get().hqs.length) && !b.q('.sr').value.trim();
+        $('#addSrc').onclick = () => {const b = addBlock(); b.el.scrollIntoView({behavior: 'smooth', block: 'center'})};
+
+        /* saved Source HQ list: edit + active / inactive */
+        const cnt = (a, w) => `<span class="cntb s" title="${esc(a.join(', '))}">${a.length} ${w}${a.length === 1 ? '' : 's'}</span>`;
+        /* reason: first 10 characters + "…", full text in a tooltip on hover / focus */
+        const rs = (t = '', n = 10) => t.length > n ? `<span class="rs" tabindex="0" data-full="${esc(t)}">${esc(t.slice(0, n))}…</span>` : `<span class="rs full">${esc(t) || '—'}</span>`;
+        const tip = document.body.appendChild(Object.assign(document.createElement('div'), {id: 'tip', hidden: true, role: 'tooltip'}));
+        function showTip(el) {
+            tip.textContent = el.dataset.full; tip.hidden = false;
+            const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+            const x = Math.min(Math.max(8, r.left), innerWidth - w - 8), y = r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8;
+            tip.style.left = x + 'px'; tip.style.top = y + 'px'
+        }
+        document.addEventListener('mouseover', e => {const el = e.target.closest('.rs[data-full]'); el ? showTip(el) : tip.hidden = true});
+        document.addEventListener('focusin', e => {const el = e.target.closest('.rs[data-full]'); el ? showTip(el) : tip.hidden = true});
+        document.addEventListener('focusout', () => tip.hidden = true);
+        addEventListener('scroll', () => tip.hidden = true, true);
+        function drawList() {
+            const r = rows(); $('#listCard').hidden = !cur;
+            $('#lcount').textContent = `${r.filter(x => x.active).length} active · ${r.filter(x => !x.active).length} inactive`;
+            $('#listRows').innerHTML = r.map(x => `<tr class="${x.active ? '' : 'off'}"><td style="white-space:nowrap">${tags(fl(x).divs.slice(0, 2))}${fl(x).divs.length > 2 ? `<span class="cntb s" title="${esc(fl(x).divs.join(', '))}">+${fl(x).divs.length - 2}</span>` : ''}</td><td>${cnt(fl(x).states, 'state')}</td><td>${cnt(fl(x).regions, 'region')}</td><td><span class="cntb">${fl(x).src.length} ${fl(x).src.length === 1 ? 'HQ' : 'HQs'}</span></td><td>${rs(scopeTxt(x.scope), 22)}</td><td>${period(x)}</td><td>${rs(x.reason)}</td>
+  <td><button type="button" class="sw ${x.active ? 'on' : ''}" data-t="${x.id}" aria-pressed="${x.active}" title="Switch active / inactive"><i></i>${x.active ? 'Active' : 'Inactive'}</button></td>
+  <td><div class="act">${x.hist.length ? `<button type="button" class="btn sm" data-h="${x.id}">History</button>` : ''}<button type="button" class="btn sm" data-e="${x.id}">Edit</button><button type="button" class="eye" data-v="${x.id}" title="View all details" aria-label="View all details"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></td></tr>`).join('') || '<tr><td colspan="9" class="empty">No Source HQ mappings saved yet. Fill in a Source HQ mapping above and select Save mapping.</td></tr>'
+        }
+        /* view card */
+        const vm = $('#vm'), vq = $('#vsearch'); let vrow = null;
+        function drawVTags() {
+            const q = vq.value.trim().toLowerCase();
+            const g = vrow.rows.map(r => ({d: r.div, m: r.hqs.filter(h => h.toLowerCase().includes(q))})).filter(g => g.m.length);
+            $('#vtags').innerHTML = g.length
+                ? g.map(g => `<div style="margin-bottom:8px"><small style="font-weight:600;color:var(--mute)">${esc(g.d)}</small>${tags(g.m)}</div>`).join('')
+                : '<span class="ms-empty">No match found</span>'
+        }
+        function viewRow(id) {
+            const x = rows().find(r => r.id === id), e = empOf(cur); if (!x) return; vrow = x;
+            $('#vtitle').textContent = `${e.name} (${e.code})`;
+            const st = $('#vstatus'); st.textContent = x.active ? 'Active' : 'Inactive'; st.className = 'pill ' + (x.active ? 'okp' : 'offp');
+            $('#vfields').innerHTML = [['Division', fl(x).divs.join(', '), 0], ['Product scope', scopeTxt(x.scope), 1], ['Effective period', fd(x.from) + ' → ' + (x.active ? 'Present' : 'Inactive'), 0], ['Sales state', x.rows.map(r => `${r.div}: ${r.states.join(', ')}`).join('  |  ') || '—', 1], ['Region', x.rows.map(r => `${r.div}: ${r.regions.join(', ')}`).join('  |  ') || '—', 1], ['Reason / remarks', x.reason, 1]].map(([k, v, w]) => `<div class="${w ? 'vw' : ''}"><span>${k}</span><b>${esc(v)}</b></div>`).join('');
+            $('#vcount').textContent = fl(x).src.length; vq.value = ''; drawVTags(); vm.hidden = false; vq.focus()
+        }
+        vq.oninput = () => drawVTags();
+        $('#vclose').onclick = () => vm.hidden = true;
+        vm.onclick = e => {if (e.target === vm) vm.hidden = true};
+        document.addEventListener('keydown', e => {if (e.key === 'Escape' && !vm.hidden) vm.hidden = true});
+        $('#vedit').onclick = () => {vm.hidden = true; startEdit(vrow.id)};
+        $('#listRows').onclick = e => {
+            const t = e.target.closest('[data-t]'), d = e.target.closest('[data-e]'), v = e.target.closest('[data-v]'), h = e.target.closest('[data-h]');
+            if (v) viewRow(+v.dataset.v);
+            if (d) startEdit(+d.dataset.e);
+            if (h) {
+                const x = rows().find(r => r.id === +h.dataset.h);
+                showHistory(`${empOf(cur).name} (${cur})`, `Source HQ mapping history · ${fl(x).divs.join(', ')}`, [...x.hist, {...x, to: null}])
+            }
+            if (t) {
+                const x = rows().find(r => r.id === +t.dataset.t), on = !x.active;
+                askReason(`${on ? 'Activate' : 'Make inactive'}: ${fl(x).divs.join(', ')} Source HQ mapping`).then(rs => {
+                    if (!rs) return;
+                    commitSrc(x, {active: on}, today(), rs, [`Status: ${on ? 'Inactive → Active' : 'Active → Inactive'}`]);
+                    drawList(); toast(`Source HQ mapping ${on ? 'activated' : 'made inactive'}`, true)
+                })
+            }
+        };
+
+        /* Edit = unfreeze everything (Sales HQ + Source HQ) and ask for date + reason */
+        function setMode(m) {
+            mode = m; const v = m === 'view', ed = m === 'edit', s = saved[cur];
+            $('#form').dataset.mode = m; $('#fs').classList.toggle('frozen', v);
+            $('#salesBody').inert = v; $('#srcBody').hidden = v; $('#actions').hidden = v;
+            $('#mapbar').hidden = m === 'new'; $('#editBtn').hidden = !v; $('#cancelBtn').hidden = !ed;
+            $('#hisBtn').hidden = !(shist[cur] || []).length;
+            $('#mapT').textContent = ed ? 'Editing mapping' : 'Existing mapping';
+            $('#mapRange').textContent = s ? `Effective ${fd(s.from)} → Present` : '';
+            $('#mapNote').textContent = v ? 'Fields are locked. Click Edit to change Sales HQ or Source HQ – a reason is required.' : ed ? 'For any Sales HQ or Source HQ change, provide the effective date and reason in the respective section.' : '';
+            $('#lblFrom').innerHTML = ed ? 'New effective from <span style="font-weight:400;color:var(--mute)">(if Sales HQ changes)</span>' : 'Effective from <i>*</i>';
+            $('#lblReason').innerHTML = ed ? 'Reason for edit <span style="font-weight:400;color:var(--mute)">(if Sales HQ changes)</span>' : 'Change reason / remarks <i>*</i>';
+            $('#reason').placeholder = ed ? 'Why is the Sales HQ mapping changing?' : 'Enter reason for initial mapping or change';
+            updateEndHint()
+        }
+        /* live: shows when the current version will end, while the person types the new date */
+        function updateEndHint() {
+            const h = $('#endHint'), s = saved[cur], f = $('#from').value;
+            if (mode !== 'edit' || !s || !f) {h.hidden = true; return }
+            const bad = f <= s.from; h.hidden = false; h.style.color = bad ? 'var(--bad)' : 'var(--mute)';
+            h.textContent = bad ? `Must be after ${fd(s.from)} (start of the current Sales mapping)` : `If Sales HQ changes, current mapping (from ${fd(s.from)}) ends on ${fd(endFor(s.from, f))}`
+        }
+        $('#from').addEventListener('input', updateEndHint);
+        function enterEdit() {setMode('edit'); $('#from').value = today(); $('#reason').value = ''; updateEndHint(); blocks.filter(isBlank).forEach(b => {b.q('.sf').value = today()})}
+        function startEdit(id) {if (!cur) return; if (mode === 'view') enterEdit(); if (id) editRow(id)}
+        $('#editBtn').onclick = () => enterEdit();
+        $('#cancelBtn').onclick = () => {loadEmployee(); toast('Edit cancelled – nothing was changed', true)};
+        $('#hisBtn').onclick = () => showHistory(`${empOf(cur).name} (${cur})`, 'Sales HQ mapping history', [...(shist[cur] || []), {...saved[cur], to: null}]);
+        function editRow(id) {
+            const ex = blocks.find(b => b.editId === id);
+            if (!ex) {if (blocks.length === 1 && isBlank(blocks[0])) {blocks[0].el.remove(); blocks.length = 0} }
+            const b = ex || addBlock(rows().find(r => r.id === id), id); b.el.scrollIntoView({behavior: 'smooth', block: 'center'})
+        }
+
+        /* Sales HQ fields + whole employee */
+        /* Sales mapping: one row per division (single-select division, multi-select State / Region / Sales HQ) */
+        function refreshDivOpts() {
+            srows.forEach(r => {const used = srows.filter(o => o !== r).flatMap(o => o.ch.get().divs); r.ch.div.set(LOGIN.filter(d => !used.includes(d)), true)});
+            $('#addDiv').hidden = !LOGIN.filter(d => !srows.some(r => r.ch.get().divs.includes(d))).length
+        }
+        function renumberS() {srows.forEach((r, i) => {r.q('.bt').textContent = `Division mapping ${i + 1}`; r.q('.rm').hidden = srows.length < 2})}
+        function addSalesRow(d) {
+            const n = ++suid, el = document.createElement('div'); el.className = 'blk';
+            el.innerHTML = `<div class="bh"><b class="bt"></b><button type="button" class="btn sm rm">Remove</button></div><div class="grid">
+ <div><label class="l">Division <i>*</i></label><div class="d"></div></div>
+ <div><label class="l">Sales state <i>*</i></label><div class="st"></div></div>
+ <div><label class="l">Region <i>*</i></label><div class="rg"></div></div>
+ <div><label class="l">Sales HQ / SAP HQ <i>*</i></label><div class="sh"></div></div></div>`;
+            $('#salesRows').appendChild(el);
+            const q = s => el.querySelector(s); q('.d').id = 'sd' + n; q('.st').id = 'ss' + n; q('.rg').id = 'sr' + n; q('.sh').id = 'sh' + n;
+            const r = {el, q, ch: chain({d: q('.d'), s: q('.st'), r: q('.rg'), h: q('.sh')}, 'Select Sales HQ / SAP HQ', 'HQs', true, refreshDivOpts)};
+            srows.push(r);
+            const x = d || {}; r.ch.load({divs: x.div ? [x.div] : [], states: x.states, regions: x.regions, hqs: x.hqs});
+            q('.rm').onclick = () => {srows.splice(srows.indexOf(r), 1); el.remove(); renumberS(); refreshDivOpts()};
+            renumberS(); refreshDivOpts(); return r
+        }
+        $('#addDiv').onclick = () => {const r = addSalesRow(); r.el.scrollIntoView({behavior: 'smooth', block: 'center'})};
+        function fillSales(r) {
+            srows.splice(0).forEach(x => x.el.remove());
+            r.rows.forEach(x => addSalesRow(x));
+            msMgr.set(MGRS); msMgr.pick(r.mgrs || []);
+            $('#pool').value = r.pool; $('#from').value = r.from; $('#reason').value = r.reason
+        }
+        function loadEmployee() {
+            clearErrs(); blocks.splice(0).forEach(b => b.el.remove());
+            const e = cur && empOf(cur); $('#form').hidden = !e; $('#empty').hidden = !!e; drawList(); if (!e) return;
+            const s = saved[cur];
+            if (s) fillSales(s);
+            else {fillSales({rows: [{div: DIV, states: [e.state], regions: [e.region], hqs: [e.hq]}], mgrs: mgrOf(e) ? [mgrOf(e)] : [], pool: '', from: e.doj, reason: ''})}
+            addBlock();
+            setMode(s ? 'view' : 'new')
+        }   /* saved data → read-only with Edit / History; no data → open form */
+
+        /* employee code search */
+        const code = $('#code'), elist = $('#elist');
+        function showList() {
+            const q = code.value.trim().toLowerCase();
+            const m = EMP.filter(e => !q || (e.code + ' ' + e.name).toLowerCase().includes(q));
+            elist.innerHTML = m.slice(0, 80).map(e => `<div class="eo" data-c="${e.code}"><b>${e.code}</b> ${esc(e.name)}<small>${esc(e.desg)} · ${esc(e.hq)}</small></div>`).join('') || '<div class="ms-empty">No employee found</div>';
+            elist.hidden = false
+        }
+        function clearEmp() {cur = null; LOGIN = divsOf(null); renderDivs();['ename', 'desg', 'doj', 'ohq', 'oreg', 'orm', 'odiv'].forEach(i => $('#' + i).value = ''); loadEmployee()}
+        function pickEmp(c) {
+            const e = empOf(c); cur = c; LOGIN = divsOf(c); renderDivs(); code.value = c; elist.hidden = true;
+            $('#ename').value = e.name; $('#desg').value = e.desg; $('#doj').value = e.doj; $('#ohq').value = e.hq; $('#oreg').value = e.region; $('#orm').value = mgrOf(e) || '—'; loadEmployee()
+        }
+        code.onfocus = showList;
+        code.oninput = () => {if (cur && code.value !== cur) clearEmp(); showList()};
+        code.onkeydown = e => {if (e.key === 'Enter') {e.preventDefault(); const f = elist.querySelector('.eo'); if (f) pickEmp(f.dataset.c)} if (e.key === 'Escape') elist.hidden = true};
+        elist.onmousedown = e => {const o = e.target.closest('.eo'); if (o) {e.preventDefault(); pickEmp(o.dataset.c)} };
+        document.addEventListener('click', e => {if (!e.target.closest('.combo')) elist.hidden = true});
+
+        /* field-level validation messages */
+        function mark(el, msg) {
+            const w = el.closest('.combo') || el.parentElement; w.classList.add('err');
+            const s = document.createElement('small'); s.className = 'ferr'; s.textContent = msg; w.appendChild(s); return w
+        }
+        function unmark(w) {w.classList.remove('err'); w.querySelectorAll(':scope>.ferr').forEach(x => x.remove())}
+        function clearErrs() {document.querySelectorAll('.err').forEach(unmark)}
+        ['input', 'change', 'click'].forEach(t => document.addEventListener(t, e => {const w = e.target.closest && e.target.closest('.err'); if (w && !e.target.closest('.ferr') && (t !== 'click' || e.target.closest('.ms-opt,.eo'))) unmark(w)}));
+        /* save */
+        $('#form').onsubmit = e => {
+            e.preventDefault();
+            const edit = mode === 'edit', list = lists[cur] = lists[cur] || [], prev = saved[cur];
+            const d = {rows: srows.map(r => {const g = r.ch.get(); return {div: g.divs[0], states: g.states, regions: g.regions, hqs: g.hqs}}), mgrs: msMgr.get(), pool: $('#pool').value, from: $('#from').value, reason: $('#reason').value.trim()};
+            const sCh = edit && prev ? diffSales(prev, d) : [];           /* did the Sales HQ part really change? */
+            clearErrs(); const errs = [];
+            const chk = (ok, field, msg) => {if (!ok) errs.push(mark(field, msg))};
+            chk(cur, $('#code'), 'Please select an employee code');
+            srows.forEach(r => {
+                const g = r.ch.get();
+                chk(g.divs.length, r.q('.d'), 'Please select a division');
+                chk(g.states.length, r.q('.st'), 'Please select at least one sales state');
+                chk(g.regions.length, r.q('.rg'), 'Please select at least one region');
+                chk(g.hqs.length, r.q('.sh'), 'Please select at least one Sales HQ')
+            });
+            chk(d.mgrs.length, $('#msMgr'), 'Please select at least one reporting manager');
+            chk(d.pool, $('#pool'), 'Please select a Pool HQ');
+            if (!edit || sCh.length) {                              /* Sales date + reason: only when Sales HQ is new or changed */
+                chk(d.from, $('#from'), edit ? 'Please select the new effective date' : 'Please select the effective date');
+                chk(d.reason, $('#reason'), edit ? 'Please enter the reason for the Sales HQ change' : 'Please enter the reason / remarks');
+                if (edit && d.from && d.from <= prev.from) errs.push(mark($('#from'), `Must be after ${fd(prev.from)} (start of the current Sales mapping)`))
+            }
+            const draft = blocks.filter(b => !isBlank(b));
+            const out = [];
+            for (const b of (draft.length || rows().length ? draft : blocks)) {
+                const s = readBlock(b), row = b.editId ? list.find(r => r.id === b.editId) : null;
+                const ch = row ? diffSrc(row, s) : ['New Source HQ mapping added'];
+                s.rows.forEach((x, i) => {
+                    const r = b.drows[i];
+                    chk(x.div, r.q('.d'), 'Please select a division');
+                    chk(x.states.length, r.q('.st'), 'Please select at least one sales state');
+                    chk(x.regions.length, r.q('.rg'), 'Please select at least one region');
+                    chk(x.hqs.length, r.q('.sh'), 'Please select at least one Source HQ')
+                });
+                if (!edit || ch.length) {                              /* each new / edited Source HQ block needs its own date + reason */
+                    chk(s.from, b.q('.sf'), row ? 'Please select the new effective date' : 'Please select the effective date');
+                    chk(s.reason, b.q('.sr'), row ? 'Please enter the reason for this edit' : 'Please enter the reason / remarks');
+                    if (row && s.from && s.from <= row.from) errs.push(mark(b.q('.sf'), `Must be after ${fd(row.from)} (start of this mapping)`))
+                }
+                out.push([b, s, ch, row])
+            }
+            if (errs.length) {
+                const f = errs[0]; f.scrollIntoView({behavior: 'smooth', block: 'center'});
+                const inp = f.querySelector('input:not([type=checkbox]):not([type=radio]),select,.ms-btn'); if (inp) setTimeout(() => inp.focus({preventScroll: true}), 300);
+                return toast(`Please fill the ${errs.length} highlighted field${errs.length > 1 ? 's' : ''}`)
+            }
+
+            let msg = `Mapping saved for ${empOf(cur).name}`;
+            if (!edit) {                                          /* first-time mapping */
+                saved[cur] = {...d, at: Date.now(), changes: ['Initial mapping']}; shist[cur] = [];
+                out.forEach(([b, s]) => list.push(newRow(s, ['New Source HQ mapping added'])))
+            }
+            else {                                               /* edit → close old version(s), open new one(s) */
+                const ops = out.filter(o => !o[3] || o[2].length);
+                if (!sCh.length && !ops.length) return toast('No changes found to save');
+                if (sCh.length) {(shist[cur] = shist[cur] || []).push({...clone(prev), to: endFor(prev.from, d.from)}); saved[cur] = {...d, at: Date.now(), changes: sCh}; msg += ` · previous Sales mapping ended ${fd(endFor(prev.from, d.from))}`}
+                ops.forEach(([b, s, ch, row]) => row ? commitSrc(row, s, s.from, s.reason, ch) : list.push(newRow(s, ch)))
+            }
+            loadEmployee();
+            toast(msg, true); $('#listCard').scrollIntoView({behavior: 'smooth', block: 'start'})
+        };
+        $('#form').onreset = () => setTimeout(loadEmployee);
+
+        /* static existing data for employee 209803 (NILESH NANDKUMAR KADAM) - with a little history so the feature can be seen */
+        const ts = s => new Date(s).getTime(), R = 'HEALION - ROM', G = 'GENX - ROM', MG = ['RATHOD FAIZALMOHMED FIROJMOHMED'];
+        saved['209803'] = {rows: [{div: 'HEALION', states: [R], regions: [R], hqs: ['PUNE', 'PUNE 1', 'PUNE 2', 'PUNE 3']}, {div: 'GENX', states: [G], regions: [G], hqs: ['PUNE', 'PUNE 1']}], mgrs: MG, pool: 'POOL HQ - PUNE', from: '2025-09-01', reason: 'Territory realignment – Pune split', at: ts('2025-08-28T11:15'), changes: ['HEALION · Sales HQ: added PUNE 2, PUNE 3']};
+        shist['209803'] = [{rows: [{div: 'HEALION', states: [R], regions: [R], hqs: ['PUNE', 'PUNE 1']}, {div: 'GENX', states: [G], regions: [G], hqs: ['PUNE', 'PUNE 1']}], mgrs: MG, pool: 'POOL HQ - PUNE', from: '2025-05-05', to: '2025-08-31', reason: 'Initial mapping as per onboarding', at: ts('2025-05-05T10:30'), changes: ['Initial mapping']}];
+        const sd = o => ({id: ++rid, active: true, hist: [], changes: ['New Source HQ mapping added'], at: ts(o.from + 'T10:00'), ...o});
+        /* Source HQ rows only use divisions that are NOT login-enabled for the employee (209803 logs in to HEALION, GENX, NEXA, VITA) */
+        const RS = d => d + ' - ROM', PS3 = ['Pantoprazole 40mg Tablet', 'Telmisartan 40mg Tablet', 'Cough Syrup'];
+        const dv = (div, hqs) => ({div, states: [RS(div)], regions: [RS(div)], hqs});
+        lists['209803'] = [
+            sd({
+                rows: [dv('ORTHO', ['PUNE', 'PUNE 1', 'PUNE 2', 'PUNE 3', 'KOLHAPUR', 'SANGLI', 'SOLAPUR'])], scope: [], from: '2025-08-01', reason: 'Added Kolhapur, Sangli and Solapur', changes: ['ORTHO · Source HQ: added KOLHAPUR, SANGLI, SOLAPUR'], at: ts('2025-07-29T16:40'),
+                hist: [{rows: [dv('ORTHO', ['PUNE', 'PUNE 1', 'PUNE 2', 'PUNE 3'])], scope: [], active: true, from: '2025-05-05', to: '2025-07-31', reason: 'Initial Source HQ mapping as per onboarding', at: ts('2025-05-05T10:45'), changes: ['New Source HQ mapping added']}]
+            }),
+            sd({rows: [dv('DERMA', ['NASHIK', 'NASHIK+MALEGAON']), dv('NEURO', ['JALGAON'])], scope: PS3, from: '2025-09-01', reason: 'Added Nashik cluster for stockist supply'}),
+            sd({active: false, rows: [dv('CARDIO', ['AHILYANAGAR'])], scope: [], from: '2025-06-01', reason: 'Moved to Nashik cluster'})];
+        loadEmployee();
+    </script>
+</body>
+
+</html>
